@@ -9,6 +9,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 const team = await getCollection('team');
 const leadDoctor = team.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))[0];
 const aboutEntry = await getEntry('pages', 'about');
+const { Content } = await aboutEntry.render();
 ---
 
 <BaseLayout
@@ -27,9 +28,9 @@ const aboutEntry = await getEntry('pages', 'about');
               {aboutEntry.data.intro}
             </p>
           )}
-          {aboutEntry.body && (
-            <div class="prose prose-slate max-w-none text-sm md:text-base" set:html={aboutEntry.body} />
-          )}
+          <div class="prose prose-slate max-w-none text-sm md:text-base">
+            <Content />
+          </div>
           <div class="flex flex-wrap gap-3">
             <Button href="/services" variant="primary">View our services</Button>
             <Button href="/team" variant="outline">Meet the team</Button>

@@ -169,7 +169,25 @@ declare module 'astro:content' {
   slug: "general-faqs";
   body: string;
   collection: "faqs";
-  data: InferEntrySchema<"faqs">
+  data: any
+} & { render(): Render[".md"] };
+};
+"home": {
+"home.md": {
+	id: "home.md";
+  slug: "home";
+  body: string;
+  collection: "home";
+  data: InferEntrySchema<"home">
+} & { render(): Render[".md"] };
+};
+"pages": {
+"about.md": {
+	id: "about.md";
+  slug: "about";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".md"] };
 };
 "services": {
@@ -236,10 +254,17 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		
+		"siteSettings": {
+"practice": {
+	id: "practice";
+  collection: "siteSettings";
+  data: InferEntrySchema<"siteSettings">
+};
+};
+
 	};
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("../../src/content/config.js");
+	export type ContentConfig = typeof import("./../../src/content/config.js");
 }
