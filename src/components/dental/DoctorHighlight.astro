@@ -39,6 +39,7 @@ const { doctor } = Astro.props;
           alt={typeof doctor.data.headshot === 'string' ? doctor.data.name : doctor.data.headshot.alt ?? doctor.data.name}
           class="h-full w-full object-cover"
           loading="lazy"
+          decoding="async"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-ink-900/10 via-transparent to-transparent"></div>
       </div>
