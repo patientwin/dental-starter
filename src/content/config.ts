@@ -46,7 +46,6 @@ const pages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
     intro: z.string().optional(),
     layout: z.enum(["default", "narrow"]).default("default"),
   }),
@@ -56,7 +55,6 @@ const team = defineCollection({
   type: "content",
   schema: z.object({
     name: z.string(),
-    slug: z.string(),
     role: z.string(),
     credentials: z.array(z.string()).optional(),
     badges: z.array(z.string()).optional(),
@@ -72,7 +70,6 @@ const services = defineCollection({
   type: "content",
   schema: z.object({
     name: z.string(),
-    slug: z.string(),
     category: z.string().optional(),
     tagline: z.string().optional(),
     summary: z.string(),
@@ -85,7 +82,6 @@ const blog = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
     date: z.date(),
     excerpt: z.string(),
     tags: z.array(z.string()).optional(),

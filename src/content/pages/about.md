@@ -1,6 +1,5 @@
 ---
 title: "About BrightSide Dental Studio"
-slug: "about"
 layout: "default"
 intro: "BrightSide Dental Studio was built to make every visit feel clear, comfortable, and efficient. From family checkups to cosmetic dentistry and dental implants in Sampletown, we combine gentle care with modern technology so you understand your options and feel confident in your smile."
 ---

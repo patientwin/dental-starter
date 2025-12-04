@@ -1,6 +1,5 @@
 ---
 name: "Dental Implants"
-slug: "dental-implants"
 category: "implants"
 tagline: "Lasting tooth replacement that looks and feels natural."
 summary: "Regain your confident smile with custom implant restorations."

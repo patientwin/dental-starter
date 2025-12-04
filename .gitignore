@@ -28,3 +28,5 @@ out
 .vercel
 .netlify
 .cache
+.astro/astro/content.d.ts
+.astro/settings.json

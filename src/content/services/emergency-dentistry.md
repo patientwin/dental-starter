@@ -1,6 +1,5 @@
 ---
 name: "Emergency Dentistry"
-slug: "emergency-dentistry"
 category: "general"
 tagline: "Same-day help for pain, breaks, and urgent needs."
 summary: "Fast relief for dental pain, chips, and unexpected issues—call and we’ll prioritize your visit."

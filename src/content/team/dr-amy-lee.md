@@ -1,6 +1,5 @@
 ---
 name: "Dr. Amy Lee"
-slug: "dr-amy-lee"
 role: "Cosmetic & Clear Aligners Dentist"
 credentials:
   - "DDS, University of Detroit Mercy"

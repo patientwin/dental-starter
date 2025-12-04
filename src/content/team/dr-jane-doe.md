@@ -1,6 +1,5 @@
 ---
 name: "Dr. Jane Doe"
-slug: "dr-jane-doe"
 role: "General & Cosmetic Dentist"
 credentials:
   - "DDS, University of Smile"

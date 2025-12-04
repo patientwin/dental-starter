@@ -1,6 +1,5 @@
 ---
 name: "Dr. John Smith"
-slug: "dr-john-smith"
 role: "Implant & Restorative Dentist"
 credentials:
   - "DDS, University of Michigan"

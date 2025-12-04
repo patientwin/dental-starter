@@ -1,6 +1,5 @@
 ---
 name: "Dr. Michael Rodriguez"
-slug: "dr-michael-rodriguez"
 role: "Family & Preventive Dentist"
 credentials:
   - "DDS, Michigan State University"
