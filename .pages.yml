@@ -2,281 +2,286 @@ media:
   input: public/images/uploads
   output: /images/uploads
 
-collections:
-  # Single JSON document that powers practice-wide settings
+# Pages CMS uses `content:` (not `collections:`) and `type` (not `widget`)
+content:
+  # ─────────────────────────────────────────────
+  # Practice-wide site settings (JSON singleton)
+  # ─────────────────────────────────────────────
   - name: siteSettings
     label: Site settings
-    folder: src/content/siteSettings
-    path: "practice.json"
+    type: file
+    path: src/content/siteSettings/practice.json
     format: json
-    create: false
     fields:
       - name: practiceName
-        label: Practice Name
-        widget: string
+        label: Practice name
+        type: string
       - name: tagline
         label: Tagline
-        widget: string
+        type: string
       - name: city
         label: City
-        widget: string
+        type: string
       - name: state
-        label: State/Region
-        widget: string
+        label: State / Region
+        type: string
       - name: phone
         label: Phone
-        widget: string
+        type: string
       - name: email
         label: Email
-        widget: string
+        type: string
         required: false
       - name: addressLine1
-        label: Address Line 1
-        widget: string
+        label: Address line 1
+        type: string
       - name: addressLine2
-        label: Address Line 2
-        widget: string
+        label: Address line 2
+        type: string
         required: false
       - name: googleMapsUrl
         label: Google Maps URL
-        widget: string
+        type: string
         required: false
       - name: hours
         label: Hours
-        widget: list
+        type: object
+        list: true
         required: false
         fields:
           - name: label
             label: Label
-            widget: string
+            type: string
           - name: value
             label: Value
-            widget: string
+            type: string
       - name: nav
         label: Navigation
-        widget: list
+        type: object
+        list: true
         required: false
         fields:
           - name: label
             label: Label
-            widget: string
+            type: string
           - name: href
             label: Href
-            widget: string
+            type: string
       - name: socials
-        label: Social Links
-        widget: list
+        label: Social links
+        type: object
+        list: true
         required: false
         fields:
           - name: label
             label: Label
-            widget: string
+            type: string
           - name: href
             label: Href
-            widget: string
+            type: string
 
-  # Home hero + high-level homepage content
+  # ─────────────────────────────────────────────
+  # Home page singleton (hero + high-level copy)
+  # ─────────────────────────────────────────────
   - name: home
     label: Home
-    folder: src/content/home
-    path: "home.md"
-    format: frontmatter
-    create: false
+    type: file
+    path: src/content/home/home.md
+    # default markdown + YAML frontmatter
+    format: yaml-frontmatter
+    bodyField: body
     fields:
       - name: title
         label: Title
-        widget: hidden
+        type: string
+        hidden: true
         default: home
       - name: heroHeadline
-        label: Hero Headline
-        widget: string
+        label: Hero headline
+        type: string
       - name: heroSubheadline
-        label: Hero Subheadline
-        widget: text
+        label: Hero subheadline
+        type: text
       - name: heroBadge
-        label: Hero Badge
-        widget: string
+        label: Hero badge
+        type: string
         required: false
       - name: heroPrimaryCtaLabel
-        label: Primary CTA Label
-        widget: string
+        label: Primary CTA label
+        type: string
       - name: heroPrimaryCtaHref
-        label: Primary CTA Href
-        widget: string
+        label: Primary CTA href
+        type: string
       - name: heroSecondaryCtaLabel
-        label: Secondary CTA Label
-        widget: string
+        label: Secondary CTA label
+        type: string
       - name: heroSecondaryCtaHref
-        label: Secondary CTA Href
-        widget: string
+        label: Secondary CTA href
+        type: string
       - name: reviewLine
-        label: Review Line
-        widget: string
+        label: Review strip line
+        type: string
         required: false
       - name: insuranceNote
-        label: Insurance Note
-        widget: string
-        required: false
-      - name: body
-        label: Body
-        widget: markdown
+        label: Insurance note
+        type: string
         required: false
 
-  # General-purpose pages collection (About, New Patients, etc.)
+  # ─────────────────────────────────────────────
+  # Generic pages (About, New Patients, etc.)
+  # ─────────────────────────────────────────────
   - name: pages
     label: Pages
-    folder: src/content/pages
-    path: "{{ slug }}.md"
-    format: frontmatter
-    create: true
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    bodyField: body
+    view:
+      labelField: title
+      fields: [title, slug]
+      sort: title
     fields:
       - name: title
         label: Title
-        widget: string
+        type: string
       - name: slug
         label: Slug
-        widget: string
+        type: string
       - name: layout
         label: Layout
-        widget: select
-        options: ["default", "narrow"]
-        default: "default"
+        type: string
+        options:
+          - default
+          - narrow
+        default: default
       - name: intro
         label: Intro
-        widget: text
-        required: false
-      - name: body
-        label: Body
-        widget: markdown
+        type: text
         required: false
 
-  # Doctors / team members
+  # ─────────────────────────────────────────────
+  # Team / doctors
+  # ─────────────────────────────────────────────
   - name: team
     label: Team
-    folder: src/content/team
-    path: "{{ slug }}.md"
-    format: frontmatter
-    create: true
+    type: collection
+    path: src/content/team
+    format: yaml-frontmatter
+    bodyField: body
+    view:
+      labelField: name
+      fields: [name, role]
+      sort: order
     fields:
       - name: name
         label: Name
-        widget: string
+        type: string
       - name: slug
         label: Slug
-        widget: string
+        type: string
       - name: role
         label: Role
-        widget: string
+        type: string
       - name: credentials
         label: Credentials
-        widget: list
+        type: string
+        list: true
         required: false
-        field:
-          name: item
-          label: Credential
-          widget: string
       - name: badges
         label: Badges
-        widget: list
+        type: string
+        list: true
         required: false
-        field:
-          name: item
-          label: Badge
-          widget: string
       - name: headshot
         label: Headshot (image path or URL)
-        widget: string
+        type: string
         required: false
       - name: bioShort
-        label: Short Bio
-        widget: text
+        label: Short bio
+        type: text
       - name: bioLong
-        label: Long Bio
-        widget: text
+        label: Long bio
+        type: text
         required: false
       - name: focusAreas
-        label: Focus Areas
-        widget: list
+        label: Focus areas
+        type: string
+        list: true
         required: false
-        field:
-          name: item
-          label: Focus Area
-          widget: string
       - name: order
         label: Order
-        widget: number
+        type: number
         default: 0
-      - name: body
-        label: Body
-        widget: markdown
-        required: false
 
+  # ─────────────────────────────────────────────
   # Services / treatments
+  # ─────────────────────────────────────────────
   - name: services
     label: Services
-    folder: src/content/services
-    path: "{{ slug }}.md"
-    format: frontmatter
-    create: true
+    type: collection
+    path: src/content/services
+    format: yaml-frontmatter
+    bodyField: body
+    view:
+      labelField: name
+      fields: [name, category]
+      sort: order
     fields:
       - name: name
         label: Name
-        widget: string
+        type: string
       - name: slug
         label: Slug
-        widget: string
+        type: string
       - name: category
         label: Category
-        widget: string
+        type: string
         required: false
       - name: tagline
         label: Tagline
-        widget: string
+        type: string
         required: false
       - name: summary
         label: Summary
-        widget: text
+        type: text
       - name: order
         label: Order
-        widget: number
+        type: number
         default: 0
       - name: featured
         label: Featured
-        widget: boolean
+        type: boolean
         default: false
-      - name: body
-        label: Body
-        widget: markdown
-        required: false
 
+  # ─────────────────────────────────────────────
   # Blog posts
+  # ─────────────────────────────────────────────
   - name: blog
     label: Blog
-    folder: src/content/blog
-    path: "{{ slug }}.md"
-    format: frontmatter
-    create: true
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    bodyField: body
+    view:
+      labelField: title
+      fields: [title, date]
+      sort: date
+      sortDirection: desc
     fields:
       - name: title
         label: Title
-        widget: string
+        type: string
       - name: slug
         label: Slug
-        widget: string
+        type: string
       - name: date
         label: Date
-        widget: datetime
+        type: datetime
       - name: excerpt
         label: Excerpt
-        widget: text
+        type: text
       - name: tags
         label: Tags
-        widget: list
+        type: string
+        list: true
         required: false
-        field:
-          name: tag
-          label: Tag
-          widget: string
-      - name: body
-        label: Body
-        widget: markdown
