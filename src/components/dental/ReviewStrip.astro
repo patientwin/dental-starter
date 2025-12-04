@@ -1,5 +1,5 @@
 ---
-import { practice } from '../../data/site';
+const { reviewUrl, reviewLine } = Astro.props;
 ---
 
 <section class="bg-surface-soft">
@@ -13,12 +13,12 @@ import { practice } from '../../data/site';
         </div>
         <div>
           <p class="text-sm font-semibold uppercase tracking-[0.18em] text-white/90">Our patients</p>
-          <p class="text-base font-semibold leading-tight">500+ five-star reviews on Google</p>
+          <p class="text-base font-semibold leading-tight">{reviewLine ?? 'Five-star reviews from our community'}</p>
         </div>
       </div>
-      {practice.gmbReviewUrl && (
+      {reviewUrl && (
         <a
-          href={practice.gmbReviewUrl}
+          href={reviewUrl}
           class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/30 backdrop-blur-sm transition hover:bg-white/15"
         >
           Read our reviews →

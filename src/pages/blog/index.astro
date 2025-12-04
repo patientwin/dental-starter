@@ -4,7 +4,7 @@ import Section from '../../components/ui/Section.astro';
 import Button from '../../components/ui/Button.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="Dental Blog | BrightSide Dental Studio in Sampletown, MI" description="Dental tips, patient guides, and practice updates from BrightSide Dental Studio in Sampletown. Family, cosmetic, and implant dentistry insights.">
@@ -31,12 +31,12 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
           key={post.id}
         >
           <div class="flex items-center justify-between text-xs text-ink-400">
-            <span class="uppercase tracking-wide text-brand-600 font-semibold">{post.data.tags.join(', ')}</span>
-            <span>{post.data.publishedDate.toLocaleDateString()}</span>
+            <span class="uppercase tracking-wide text-brand-600 font-semibold">{post.data.tags?.join(', ')}</span>
+            <span>{post.data.date.toLocaleDateString()}</span>
           </div>
           <h2 class="mt-2 text-2xl font-heading text-ink-900 group-hover:text-brand-600">{post.data.title}</h2>
           <p class="text-sm text-ink-700 mt-2 mb-3">{post.data.excerpt}</p>
-          <span class="text-sm font-semibold text-brand-600">Read more →</span>
+          <span class="text-sm font-semibold text-brand-600">Read more ƒ+'</span>
         </a>
       ))}
     </div>

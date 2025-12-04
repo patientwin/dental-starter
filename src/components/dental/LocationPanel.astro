@@ -1,6 +1,12 @@
 ---
 import Button from '../ui/Button.astro';
-import { practice } from '../../data/site';
+
+const { practice } = Astro.props;
+const hours = [
+  { label: 'Mon-Thu', value: '8:00am – 5:00pm' },
+  { label: 'Friday', value: '8:00am – 2:00pm' },
+  { label: 'Saturday', value: 'By appointment' },
+];
 ---
 
 <section class="bg-surface-soft">
@@ -20,8 +26,8 @@ import { practice } from '../../data/site';
             </svg>
           </div>
           <div>
-            <p class="font-semibold text-ink-900">{practice.address.line1}{practice.address.line2 ? `, ${practice.address.line2}` : ''}</p>
-            <p>{practice.address.city}, {practice.address.state} {practice.address.zip}</p>
+            <p class="font-semibold text-ink-900">{practice.addressLine1}{practice.addressLine2 ? `, ${practice.addressLine2}` : ''}</p>
+            <p>{practice.city}, {practice.state}</p>
           </div>
         </div>
         <div class="flex items-center gap-3">
@@ -36,7 +42,7 @@ import { practice } from '../../data/site';
         <div class="rounded-2xl bg-surface-soft p-4 ring-1 ring-surface-border">
           <p class="text-sm font-semibold text-ink-900">Hours</p>
           <ul class="mt-2 space-y-1 text-sm text-ink-700">
-            {practice.hours.map((entry) => (
+            {hours.map((entry) => (
               <li>{entry.label}: {entry.value}</li>
             ))}
           </ul>

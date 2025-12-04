@@ -1,8 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import Button from '../ui/Button.astro';
-import { practice } from '../../data/site';
 import heroImage from '../../assets/hero-dental-office.png';
+
+const { site, home } = Astro.props;
 ---
 
 <section id="top" class="relative min-h-[65vh] overflow-hidden bg-ink-950 text-white">
@@ -23,15 +24,17 @@ import heroImage from '../../assets/hero-dental-office.png';
 
   <div class="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-4 py-16 md:flex-row md:items-center md:py-20 lg:gap-16">
     <div class="max-w-xl space-y-5 text-white">
-      <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur-sm shadow-card-soft">
-        <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
-        </svg>
-        Comfort-focused care
-      </div>
+      {home?.data.heroBadge && (
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur-sm shadow-card-soft">
+          <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+          </svg>
+          {home.data.heroBadge}
+        </div>
+      )}
       <div class="space-y-3">
-        <h1 class="font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">{practice.name}</h1>
-        <p class="max-w-md text-sm leading-relaxed text-white/80 md:text-base">{practice.tagline}</p>
+        <h1 class="font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">{home?.data.heroHeadline ?? site.practiceName}</h1>
+        <p class="max-w-md text-sm leading-relaxed text-white/80 md:text-base">{home?.data.heroSubheadline ?? site.tagline}</p>
       </div>
       <div class="mt-2 flex flex-wrap gap-2">
         <span class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur">
@@ -40,27 +43,20 @@ import heroImage from '../../assets/hero-dental-office.png';
           </svg>
           5-star rated
         </span>
-        <span class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/20 backdrop-blur">
-          <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M9 12l2 2 4-4" />
-          </svg>
-          Comfort-focused care
-        </span>
       </div>
       <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <Button href={practice.primaryCTA.href} variant="primary" class="w-full px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-500/30 sm:w-auto md:text-base bg-brand-500 hover:bg-brand-600">
-          {practice.primaryCTA.label}
+        <Button href={home?.data.heroPrimaryCtaHref} variant="primary" class="w-full px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-500/30 sm:w-auto md:text-base bg-brand-500 hover:bg-brand-600">
+          {home?.data.heroPrimaryCtaLabel}
         </Button>
         <Button
-          href={practice.secondaryCTA.href}
+          href={home?.data.heroSecondaryCtaHref}
           variant="outline"
           class="w-full border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15 sm:w-auto md:text-base"
         >
-          {practice.secondaryCTA.label}
+          {home?.data.heroSecondaryCtaLabel}
         </Button>
       </div>
-      <p class="text-xs text-white/75 md:text-sm">Serving families in {practice.address.city} and surrounding communities.</p>
+      <p class="text-xs text-white/75 md:text-sm">Serving families in {site.city} and surrounding communities.</p>
     </div>
   </div>
 </section>

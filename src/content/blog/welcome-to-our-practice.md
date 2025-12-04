@@ -1,13 +1,11 @@
 ---
 title: "Welcome to Our Practice"
-publishedDate: 2024-06-01
+slug: "welcome-to-our-practice"
+date: 2024-06-01
 excerpt: "Get to know our team, our philosophy, and what to expect at your first visit."
-seoTitle: "Meet BrightSide Dental Studio"
-seoDescription: "Discover our comfort-first approach, modern technology, and caring team."
 tags:
   - practice-news
   - patient-experience
-featured: true
 ---
 
 We opened BrightSide Dental Studio to make dentistry feel refreshing and easy. From online scheduling to same-day crowns, we designed every detail with busy families in mind.

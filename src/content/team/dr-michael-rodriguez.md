@@ -1,13 +1,14 @@
 ---
 name: "Dr. Michael Rodriguez"
+slug: "dr-michael-rodriguez"
 role: "Family & Preventive Dentist"
 credentials:
-  - DDS, Michigan State University
-  - Member, ADA & MDA
-  - Certified in Nitrous Analgesia
+  - "DDS, Michigan State University"
+  - "Member, ADA & MDA"
+  - "Certified in Nitrous Analgesia"
+headshot: "/images/team/dr-michael.svg"
 bioShort: "Family-friendly care focused on prevention, comfort, and clear guidance."
 bioLong: "Dr. Michael Rodriguez helps families stay healthy with preventive visits, gentle restorative care, and clear education. He prioritizes patient comfort and transparent communication, making sure kids and adults alike feel at ease."
-headshot: "/images/team/dr-michael.svg"
 order: 4
 ---
 

@@ -1,25 +1,23 @@
 ---
-import { practice, siteMeta } from '../../data/site';
-
 export interface Props {
   title?: string;
   description?: string;
   noIndex?: boolean;
+  site: any;
 }
 
-const { title = siteMeta.title, description = siteMeta.description, noIndex = false } = Astro.props;
+const { title, description, noIndex = false, site } = Astro.props;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: practice.name,
-  image: siteMeta.ogImage,
-  telephone: practice.phone,
+  name: site.practiceName,
+  image: '/og-image.jpg',
+  telephone: site.phone,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: `${practice.address.line1}${practice.address.line2 ? `, ${practice.address.line2}` : ''}`,
-    addressLocality: practice.address.city,
-    addressRegion: practice.address.state,
-    postalCode: practice.address.zip,
+    streetAddress: `${site.addressLine1}${site.addressLine2 ? `, ${site.addressLine2}` : ''}`,
+    addressLocality: site.city,
+    addressRegion: site.state,
   },
   url: 'https://www.example-dental.com',
   geo: undefined,

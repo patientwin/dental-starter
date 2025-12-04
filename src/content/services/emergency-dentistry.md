@@ -1,12 +1,11 @@
 ---
-title: "Emergency Dentistry"
+name: "Emergency Dentistry"
+slug: "emergency-dentistry"
 category: "general"
-heroTagline: "Same-day relief for tooth pain, chips, or swelling."
-shortDescription: "Prompt exams and treatment plans to stop pain and protect your smile."
-seoTitle: "Emergency Dentist in Sampletown, MI"
-seoDescription: "Call BrightSide Dental Studio for same-day emergency dental care in Sampletown—pain relief, chipped teeth, infections."
-featured: false
-order: 4
+tagline: "Same-day help for pain, breaks, and urgent needs."
+summary: "Fast relief for dental pain, chips, and unexpected issues—call and we’ll prioritize your visit."
+featured: true
+order: 3
 ---
 
-Dental emergencies happen without warning. We reserve time for urgent visits to diagnose, relieve pain, and protect your tooth. We’ll guide you on next steps over the phone and see you as soon as possible.
+Dental emergencies happen. Call us for quick help with toothaches, chips, lost fillings, or swelling. We’ll get you comfortable fast and create a clear plan for lasting relief.

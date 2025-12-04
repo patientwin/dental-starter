@@ -1,10 +1,10 @@
 ---
-import '../styles/global.css';
-import SiteHead from '../components/layout/SiteHead.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import StickyBottomBar from '../components/ui/StickyBottomBar.astro';
-import { siteMeta } from '../data/site';
+import "../styles/global.css";
+import SiteHead from "../components/layout/SiteHead.astro";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import StickyBottomBar from "../components/ui/StickyBottomBar.astro";
+import { getEntry } from "astro:content";
 
 export interface Props {
   title?: string;
@@ -13,18 +13,33 @@ export interface Props {
 }
 
 const { title, description, noIndex } = Astro.props;
+const siteEntry = await getEntry("siteSettings", "practice");
+const homeEntry = await getEntry("home", "home");
+const site = siteEntry.data;
+const phoneHref = `tel:${site.phone.replace(/[^0-9+]/g, "")}`;
+const primaryCTA = {
+  label: homeEntry.data.heroPrimaryCtaLabel,
+  href: homeEntry.data.heroPrimaryCtaHref,
+};
+const secondaryCTA = {
+  label: homeEntry.data.heroSecondaryCtaLabel,
+  href: homeEntry.data.heroSecondaryCtaHref,
+};
+const practice = { ...site, phoneHref, primaryCTA, secondaryCTA };
+const metaTitle = title ?? `${site.practiceName} | Family & Cosmetic Dentistry`;
+const metaDescription = description ?? site.tagline;
 ---
 
 <html lang="en">
   <head>
-    <SiteHead title={title ?? siteMeta.title} description={description ?? siteMeta.description} noIndex={noIndex} />
+    <SiteHead title={metaTitle} description={metaDescription} site={site} noIndex={noIndex} />
   </head>
   <body class="bg-background text-neutral">
-    <Header />
+    <Header practice={practice} nav={site.nav} />
     <main>
       <slot />
     </main>
-    <Footer />
-    <StickyBottomBar />
+    <Footer practice={practice} socials={site.socials} />
+    <StickyBottomBar practice={practice} />
   </body>
 </html>

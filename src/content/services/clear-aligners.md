@@ -1,10 +1,9 @@
 ---
-title: "Clear Aligners"
+name: "Clear Aligners"
+slug: "clear-aligners"
 category: "cosmetic"
-heroTagline: "Straighten discreetly with comfortable, nearly invisible trays."
-shortDescription: "Custom clear aligners to guide teeth gently into position without brackets."
-seoTitle: "Clear Aligners in Sampletown, MI"
-seoDescription: "Straighten your smile with clear aligners in Sampletown—comfortable, removable, and planned with 3D imaging."
+tagline: "Straighten discreetly with comfortable, nearly invisible trays."
+summary: "Custom clear aligners to guide teeth gently into position without brackets."
 featured: true
 order: 2
 ---

@@ -1,10 +1,9 @@
 ---
-title: "Dental Implants"
+name: "Dental Implants"
+slug: "dental-implants"
 category: "implants"
-heroTagline: "Lasting tooth replacement that looks and feels natural."
-shortDescription: "Regain your confident smile with custom implant restorations."
-seoTitle: "Dental Implants in Sampletown"
-seoDescription: "Implant dentistry to replace missing teeth with stable, natural-looking results."
+tagline: "Lasting tooth replacement that looks and feels natural."
+summary: "Regain your confident smile with custom implant restorations."
 featured: true
 order: 1
 ---

@@ -8,21 +8,24 @@ import InsuranceStrip from '../components/dental/InsuranceStrip.astro';
 import Section from '../components/ui/Section.astro';
 import DoctorHighlight from '../components/dental/DoctorHighlight.astro';
 import Button from '../components/ui/Button.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { testimonials } from '../data/testimonials';
 
+const site = await getEntry('siteSettings', 'practice');
+const home = await getEntry('home', 'home');
 const services = await getCollection('services');
 const featured = services.filter((service) => service.data.featured).sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 const team = await getCollection('team');
 const leadDoctor = team.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))[0];
-const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()).slice(0, 2);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 2);
+const googleReviewLink = site.data.socials.find((social) => social.label.toLowerCase().includes('google'))?.href;
 ---
 
 <BaseLayout title="BrightSide Dental Studio | Family & Cosmetic Dentistry" description="Comfort-first dental care with advanced technology and a friendly team.">
-  <HeroPractice />
-  <InsuranceStrip />
+  <HeroPractice site={site.data} home={home} />
+  <InsuranceStrip note={home.data.insuranceNote} />
   <ServiceHighlights services={featured.length ? featured : services} />
-  <ReviewStrip />
+  <ReviewStrip reviewUrl={googleReviewLink} reviewLine={home.data.reviewLine} />
 
   <Section>
     <div class="space-y-6 md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start md:gap-10 md:space-y-0">
@@ -165,7 +168,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
               <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">{post.data.tags.join(', ')}</p>
               <h3 class="text-xl font-heading text-ink-900">{post.data.title}</h3>
               <p class="text-sm text-ink-700">{post.data.excerpt}</p>
-              <p class="text-xs text-ink-400">{post.data.publishedDate.toLocaleDateString()}</p>
+              <p class="text-xs text-ink-400">{post.data.date.toLocaleDateString()}</p>
               <a href={`/blog/${post.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Read more -></a>
             </article>
           ))}
@@ -174,5 +177,5 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
     </Section>
   )}
 
-  <LocationPanel />
+  <LocationPanel practice={{ ...site.data, phoneHref: `tel:${site.data.phone.replace(/[^0-9+]/g, '')}` }} />
 </BaseLayout>

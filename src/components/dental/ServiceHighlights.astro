@@ -35,11 +35,11 @@ const { services } = Astro.props;
           <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-1 ring-surface-border">
             <span class="text-lg">*</span>
           </div>
-          <h3 class="mb-2 text-lg font-heading text-ink-900">{service.data.title}</h3>
-          <p class="mb-3 text-sm leading-relaxed text-ink-700">{service.data.shortDescription}</p>
+          <h3 class="mb-2 text-lg font-heading text-ink-900">{service.data.name}</h3>
+          <p class="mb-3 text-sm leading-relaxed text-ink-700">{service.data.summary}</p>
           <div class="flex items-center justify-between">
             <a href={`/services/${service.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Learn more -></a>
-            <span class="text-xs text-ink-400">Category: {service.data.category}</span>
+            <span class="text-xs text-ink-400">Category: {service.data.category ?? 'general'}</span>
           </div>
         </article>
       ))}

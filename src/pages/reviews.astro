@@ -2,8 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReviewGrid from '../components/dental/ReviewGrid.astro';
 import Section from '../components/ui/Section.astro';
-import { practice } from '../data/site';
 import Button from '../components/ui/Button.astro';
+import { getEntry } from 'astro:content';
+
+const site = await getEntry('siteSettings', 'practice');
+const googleReviewUrl = site.data.socials.find((item) => item.label.toLowerCase().includes('google'))?.href ?? '#';
 ---
 
 <BaseLayout
@@ -18,7 +21,7 @@ import Button from '../components/ui/Button.astro';
         Patients choose BrightSide for gentle visits, clear communication, and modern results—from family checkups to cosmetic dentistry and dental implants in Sampletown.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
-        <Button href={practice.gmbReviewUrl} variant="primary">Read Google reviews</Button>
+        <Button href={googleReviewUrl} variant="primary">Read Google reviews</Button>
         <Button href="/contact" variant="outline">Call our office</Button>
       </div>
     </div>
@@ -68,7 +71,7 @@ import Button from '../components/ui/Button.astro';
   <Section>
     <div class="text-center space-y-3">
       <p class="text-lg font-heading text-neutral">See more patient stories</p>
-      <a href={practice.gmbReviewUrl} class="text-primary font-semibold">View Google reviews →</a>
+      <a href={googleReviewUrl} class="text-primary font-semibold">View Google reviews →</a>
     </div>
   </Section>
 </BaseLayout>
