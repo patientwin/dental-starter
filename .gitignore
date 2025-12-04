@@ -1,11 +1,17 @@
 # Node
-node_modules
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-lock.yaml
-package-lock.json
 .DS_Store
+
+# Lockfiles (pick ONE to keep, comment out the rest)
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
+
+# Astro
+.astro
 
 # Env files
 .env

@@ -18,18 +18,19 @@ const leadDoctor = team.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
 const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime()).slice(0, 2);
 ---
 
-<BaseLayout title="BrightSide Dental Studio | Family & Cosmetic Dentistry" description="Comfort-first dental care with advanced technology and a friendly team." >
+<BaseLayout title="BrightSide Dental Studio | Family & Cosmetic Dentistry" description="Comfort-first dental care with advanced technology and a friendly team.">
   <HeroPractice />
   <InsuranceStrip />
   <ServiceHighlights services={featured.length ? featured : services} />
   <ReviewStrip />
+
   <Section>
-    <div class="grid items-start gap-8 md:grid-cols-2">
+    <div class="space-y-6 md:grid md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start md:gap-10 md:space-y-0">
       <div class="space-y-4">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent-500">About our practice</p>
         <h2 class="font-heading text-3xl text-ink-900 md:text-4xl">We keep dentistry simple, modern, and kind.</h2>
         <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">We use digital workflows, same-day crowns, and gentle techniques to make visits efficient and comfortable. Our team listens first so we can tailor plans to your goals, schedule, and comfort level.</p>
-        <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">We combine tech-forward care—3D imaging, digital impressions, clear aligners—with warm, human service. You’ll always understand your options, costs, and timelines before we begin.</p>
+        <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">We combine tech-forward care -- 3D imaging, digital impressions, clear aligners -- with warm, human service. You will always understand your options, costs, and timelines before we begin.</p>
         <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button href="/new-patients" variant="primary" class="w-full sm:w-auto">Schedule a visit</Button>
           <Button href="/contact" variant="outline" class="w-full sm:w-auto">Ask a question</Button>
@@ -37,14 +38,14 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
       </div>
       <div class="space-y-3 rounded-3xl bg-surface p-6 shadow-card-soft ring-1 ring-surface-border">
         <p class="text-sm font-semibold text-ink-900">What patients appreciate</p>
-        <div class="mt-2 space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
+        <div class="mt-2 space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0 lg:grid-cols-3">
           {[
             { title: 'Comfort-first', copy: 'Comfort menu, nitrous, and gentle techniques for every visit.' },
             { title: 'Transparent plans', copy: 'Clear timelines, options, and costs before treatment starts.' },
             { title: 'Modern tech', copy: '3D imaging, digital impressions, and same-day solutions when possible.' },
             { title: 'Easy scheduling', copy: 'Online forms, text-friendly team, and quick responses.' },
           ].map((item) => (
-            <div class="rounded-2xl bg-surface-soft px-4 py-4 ring-1 ring-surface-border shadow-card-soft">
+            <div class="rounded-2xl bg-surface-soft px-4 py-4 text-sm text-ink-600 shadow-card-soft ring-1 ring-surface-border">
               <p class="text-sm font-semibold text-ink-900">{item.title}</p>
               <p class="text-xs leading-relaxed text-ink-600">{item.copy}</p>
             </div>
@@ -53,6 +54,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
       </div>
     </div>
   </Section>
+
   <Section>
     <div class="rounded-3xl bg-warm-100/50 p-6 shadow-card-soft ring-1 ring-surface-border/70 md:p-8">
       <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -62,10 +64,10 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
           <p class="text-sm leading-relaxed text-ink-700">Real experiences from patients in Sampletown who value comfort, clarity, and great results.</p>
         </div>
       </div>
-      <div class="mt-6 grid gap-4 md:grid-cols-3">
+      <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((item) => (
           <article class="space-y-3 rounded-3xl bg-surface p-5 shadow-card-soft ring-1 ring-surface-border/70">
-            <p class="text-sm leading-relaxed text-ink-800">“{item.quote}”</p>
+            <p class="text-sm leading-relaxed text-ink-800">"{item.quote}"</p>
             <div class="space-y-1">
               <p class="text-sm font-semibold text-ink-900">{item.name}</p>
               <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">{item.label}</p>
@@ -75,12 +77,14 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
       </div>
     </div>
   </Section>
+
   {leadDoctor && <DoctorHighlight doctor={leadDoctor} />}
+
   <Section>
     <div class="space-y-6">
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent-500">Patient experience</p>
       <h2 class="font-heading text-3xl text-ink-900 md:text-4xl">Designed to be calm, clear, and convenient</h2>
-      <div class="grid gap-4 md:grid-cols-3">
+      <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {[
           {
             title: 'Before your visit',
@@ -113,7 +117,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
             ),
           },
         ].map((card) => (
-          <div class="space-y-3 rounded-2xl bg-surface p-5 shadow-card-soft ring-1 ring-surface-border">
+          <div class="space-y-3 rounded-3xl bg-surface p-5 shadow-card-soft ring-1 ring-surface-border md:px-5 md:py-5">
             <div class={`inline-flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-surface-border ${card.iconBg}`}>
               <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 {card.icon}
@@ -130,12 +134,13 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
       </div>
     </div>
   </Section>
+
   <Section>
     <div class="flex flex-col gap-6 rounded-2xl bg-gradient-to-r from-halo-blue via-surface-soft to-halo-mint p-6 shadow-card-soft ring-1 ring-surface-border md:flex-row md:items-center md:justify-between md:p-8">
       <div class="space-y-2">
-        <p class="text-sm uppercase tracking-wide text-brand-600 font-semibold">Ready to get started?</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-brand-600">Ready to get started?</p>
         <h2 class="font-heading text-2xl text-ink-900">Book your first visit or ask us a question</h2>
-        <p class="text-sm text-ink-700">We’ll confirm your appointment quickly and help with insurance and forms.</p>
+        <p class="text-sm text-ink-700">We will confirm your appointment quickly and help with insurance and forms.</p>
       </div>
       <div class="mt-4 flex flex-col gap-3 sm:flex-row">
         <Button href="/new-patients" variant="primary" class="w-full sm:w-auto">Request appointment</Button>
@@ -143,6 +148,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
       </div>
     </div>
   </Section>
+
   {posts.length > 0 && (
     <Section>
       <div class="space-y-6">
@@ -153,19 +159,20 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.
           </div>
           <a href="/blog" class="text-sm font-semibold text-brand-600 hover:text-brand-700">View all</a>
         </div>
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <article class="space-y-2 rounded-2xl bg-surface p-5 shadow-card-soft ring-1 ring-surface-border transition hover:-translate-y-1 hover:shadow-lg hover:ring-brand-100/80" key={post.id}>
+            <article class="space-y-2 rounded-3xl bg-surface p-5 shadow-card-soft ring-1 ring-surface-border transition hover:-translate-y-1 hover:shadow-lg hover:ring-brand-100/80 md:px-5 md:py-5 min-h-[200px]" key={post.id}>
               <p class="text-xs font-semibold uppercase tracking-wide text-brand-600">{post.data.tags.join(', ')}</p>
               <h3 class="text-xl font-heading text-ink-900">{post.data.title}</h3>
               <p class="text-sm text-ink-700">{post.data.excerpt}</p>
               <p class="text-xs text-ink-400">{post.data.publishedDate.toLocaleDateString()}</p>
-              <a href={`/blog/${post.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Read more →</a>
+              <a href={`/blog/${post.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Read more -></a>
             </article>
           ))}
         </div>
       </div>
     </Section>
   )}
+
   <LocationPanel />
 </BaseLayout>

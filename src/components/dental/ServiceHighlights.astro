@@ -16,29 +16,29 @@ const { services } = Astro.props;
       <div class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.14em] text-accent-500">Featured services</p>
         <h2 class="text-xl font-semibold tracking-tight text-ink-900 md:text-3xl">Comfort-first dental care</h2>
-        <p class="mt-2 max-w-2xl text-sm text-ink-700 leading-relaxed">High-impact treatments patients ask for most—delivered with a gentle, tech-forward approach.</p>
+        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700">High-impact treatments patients ask for most -- delivered with a gentle, tech-forward approach.</p>
       </div>
       <Button href="/services" variant="outline" class="self-start md:self-center">View all services</Button>
     </div>
 
-    <div class="mt-6 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 [-webkit-overflow-scrolling:touch] md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0">
+    <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {services.map((service, idx) => (
         <article
-          class={`relative snap-start shrink-0 w-72 rounded-3xl bg-surface px-4 py-4 shadow-card-soft ring-1 ring-surface-border/60 transition hover:-translate-y-1 hover:shadow-lg hover:ring-brand-100/80 md:w-auto ${idx === 0 ? 'md:col-span-2' : ''}`}
+          class={`relative rounded-3xl bg-surface px-4 py-4 shadow-card-soft ring-1 ring-surface-border/60 transition hover:-translate-y-1 hover:shadow-lg hover:ring-brand-100/80 md:px-5 md:py-5 ${idx === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}
           key={service.id}
         >
           {idx === 0 && (
             <span class="absolute right-4 top-4 rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white shadow-sm ring-1 ring-brand-500/80">
-                Most requested
+              Most requested
             </span>
           )}
           <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-1 ring-surface-border">
-            <span class="text-lg">🦷</span>
+            <span class="text-lg">*</span>
           </div>
           <h3 class="mb-2 text-lg font-heading text-ink-900">{service.data.title}</h3>
-          <p class="mb-3 text-sm text-ink-700 leading-relaxed">{service.data.shortDescription}</p>
+          <p class="mb-3 text-sm leading-relaxed text-ink-700">{service.data.shortDescription}</p>
           <div class="flex items-center justify-between">
-            <a href={`/services/${service.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Learn more →</a>
+            <a href={`/services/${service.slug}`} class="text-sm font-semibold text-brand-600 hover:text-brand-700">Learn more -></a>
             <span class="text-xs text-ink-400">Category: {service.data.category}</span>
           </div>
         </article>
