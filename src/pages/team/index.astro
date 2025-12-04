@@ -72,7 +72,7 @@ const getInitials = (name: string) =>
 
                 <div class="mt-3 flex items-center justify-between text-xs text-ink-500">
                   {doc.data.credentials?.[0] && <span>{doc.data.credentials[0]}</span>}
-                  <a href={`/team/${doc.slug}`} class="ml-auto inline-flex items-center text-sm font-medium text-brand-600 hover:text-brand-700">
+                  <a href={`/team/${doc.data.slug ?? doc.slug}`} class="ml-auto inline-flex items-center text-sm font-medium text-brand-600 hover:text-brand-700">
                     View bio →
                   </a>
                 </div>

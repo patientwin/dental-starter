@@ -1,13 +1,11 @@
 ---
 import Section from '../ui/Section.astro';
 import Button from '../ui/Button.astro';
-import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 
-export interface Props {
-  services: CollectionEntry<'services'>[];
-}
-
-const { services } = Astro.props;
+const services = (await getCollection('services'))
+  .filter((s) => s.data.featured)
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 ---
 
 <Section>

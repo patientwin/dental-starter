@@ -1,5 +1,6 @@
 ---
 title: "Welcome to Our Practice"
+slug: "welcome-to-our-practice"
 date: 2024-06-01
 excerpt: "Get to know our team, our philosophy, and what to expect at your first visit."
 tags:

@@ -1,6 +1,7 @@
 ---
 title: "We’re here to help"
-layoutStyle: "default"
+slug: "contact"
+layout: "default"
 intro: "Call, text, or message us. We’ll answer questions, verify insurance, and help you plan your visit."
 ---
 

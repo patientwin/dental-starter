@@ -1,5 +1,6 @@
 ---
 name: "Clear Aligners"
+slug: "clear-aligners"
 category: "cosmetic"
 tagline: "Straighten discreetly with comfortable, nearly invisible trays."
 summary: "Custom clear aligners to guide teeth gently into position without brackets."

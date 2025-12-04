@@ -1,5 +1,6 @@
 ---
 name: "Teeth Whitening"
+slug: "teeth-whitening"
 category: "cosmetic"
 tagline: "Brighten safely with professional-grade options."
 summary: "Custom whitening treatments to lift stains and boost confidence without sensitivity."

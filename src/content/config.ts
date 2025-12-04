@@ -1,41 +1,40 @@
-import { defineCollection, z } from "astro:content";
+import { z, defineCollection } from "astro:content";
 
 const siteSettings = defineCollection({
   type: "data",
   schema: z.object({
     practiceName: z.string(),
-    tagline: z.string(),
-    city: z.string(),
-    state: z.string(),
-    phone: z.string(),
+    tagline: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    phone: z.string().optional(),
     email: z.string().optional(),
-    addressLine1: z.string(),
+    addressLine1: z.string().optional(),
     addressLine2: z.string().optional(),
-    googleMapsUrl: z.string().url().optional(),
-    hours: z.array(
-      z.object({
-        label: z.string(),
-        value: z.string(),
-      })
-    ),
-    nav: z.array(
-      z.object({
-        label: z.string(),
-        href: z.string(),
-      })
-    ),
-    socials: z.array(
-      z.object({
-        label: z.string(),
-        href: z.string(),
-      })
-    ),
+    googleMapsUrl: z.string().optional(),
+    nav: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+        }),
+      )
+      .optional(),
+    socials: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+        }),
+      )
+      .optional(),
   }),
 });
 
 const home = defineCollection({
   type: "content",
   schema: z.object({
+    title: z.string().default("home"),
     heroHeadline: z.string(),
     heroSubheadline: z.string(),
     heroBadge: z.string().optional(),
@@ -52,8 +51,9 @@ const pages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    slug: z.string(),
+    layout: z.enum(["default", "narrow"]).default("default"),
     intro: z.string().optional(),
-    layoutStyle: z.enum(["default", "narrow"]).default("default"),
   }),
 });
 
@@ -61,6 +61,7 @@ const team = defineCollection({
   type: "content",
   schema: z.object({
     name: z.string(),
+    slug: z.string(),
     role: z.string(),
     credentials: z.array(z.string()).optional(),
     badges: z.array(z.string()).optional(),
@@ -69,6 +70,7 @@ const team = defineCollection({
     bioLong: z.string().optional(),
     focusAreas: z.array(z.string()).optional(),
     order: z.number().default(0),
+    featured: z.boolean().default(false),
   }),
 });
 
@@ -76,6 +78,7 @@ const services = defineCollection({
   type: "content",
   schema: z.object({
     name: z.string(),
+    slug: z.string(),
     category: z.string().optional(),
     tagline: z.string().optional(),
     summary: z.string(),
@@ -88,6 +91,7 @@ const blog = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    slug: z.string(),
     date: z.date(),
     excerpt: z.string(),
     tags: z.array(z.string()).optional(),

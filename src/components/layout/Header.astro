@@ -1,7 +1,25 @@
 ---
 import Button from '../ui/Button.astro';
+import { getEntryBySlug } from "astro:content";
 
-const { practice, nav } = Astro.props;
+const practiceEntry = await getEntryBySlug("siteSettings", "practice");
+const practiceFromContent = practiceEntry?.data;
+const { practice = practiceFromContent, nav = practiceFromContent?.nav } = Astro.props;
+const navItems = nav ?? [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Team', href: '/team' },
+  { label: 'Services', href: '/services' },
+  { label: 'New Patients', href: '/new-patients' },
+  { label: 'Reviews', href: '/reviews' },
+  { label: 'Financing', href: '/financing' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Blog', href: '/blog' },
+];
+const primaryHref = '/new-patients';
+const primaryLabel = 'Request Appointment';
+const secondaryHref = '/contact';
+const secondaryLabel = 'Call or message';
 ---
 
 <header class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-surface-border shadow-sm">
@@ -15,14 +33,14 @@ const { practice, nav } = Astro.props;
     </a>
 
     <nav class="hidden lg:flex flex-1 items-center justify-center gap-6 text-sm">
-      {nav.map((item) => (
+      {navItems.map((item) => (
         <a href={item.href} class="font-medium text-ink-600 hover:text-ink-900 whitespace-nowrap tracking-tight border-b-2 border-transparent hover:border-brand-500" key={item.label}>{item.label}</a>
       ))}
     </nav>
 
     <div class="hidden lg:block shrink-0">
-      <Button href={practice.primaryCTA.href} variant="primary" class="px-4 py-2 text-sm">
-        {practice.primaryCTA.label}
+      <Button href={primaryHref} variant="primary" class="px-4 py-2 text-sm">
+        {primaryLabel}
       </Button>
     </div>
 
@@ -37,11 +55,11 @@ const { practice, nav } = Astro.props;
 
   <div id="mobile-menu" class="lg:hidden hidden border-t border-surface-border bg-surface">
     <div class="px-4 py-4 space-y-3">
-      {nav.map((item) => (
+      {navItems.map((item) => (
         <a href={item.href} class="block text-base font-medium text-ink-700 hover:text-brand-600" key={item.label}>{item.label}</a>
       ))}
-      <Button href={practice.primaryCTA.href} variant="primary" class="w-full justify-center">{practice.primaryCTA.label}</Button>
-      <Button href={practice.secondaryCTA.href} variant="outline" class="w-full justify-center">{practice.secondaryCTA.label}</Button>
+      <Button href={primaryHref} variant="primary" class="w-full justify-center">{primaryLabel}</Button>
+      <Button href={secondaryHref} variant="outline" class="w-full justify-center">{secondaryLabel}</Button>
     </div>
   </div>
 </header>

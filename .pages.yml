@@ -76,6 +76,7 @@ collections:
       - { name: bioLong, label: Long Bio, widget: text, required: false }
       - { name: focusAreas, label: Focus Areas, widget: list, required: false }
       - { name: order, label: Order, widget: number, default: 0 }
+      - { name: featured, label: Featured, widget: boolean, default: false }
       - { name: body, label: Body, widget: markdown, required: false }
 
   - name: Services

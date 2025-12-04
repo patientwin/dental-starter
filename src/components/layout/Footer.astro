@@ -1,7 +1,10 @@
 ---
 import { secondaryNav } from '../../data/navigation';
+import { getEntryBySlug } from "astro:content";
 
-const { practice, socials } = Astro.props;
+const practiceEntry = await getEntryBySlug("siteSettings", "practice");
+const practice = practiceEntry?.data ?? Astro.props.practice;
+const socials = Astro.props.socials ?? practice?.socials ?? [];
 const year = new Date().getFullYear();
 const footerNav = [
   { label: 'Services', href: '/services' },
@@ -19,15 +22,15 @@ const hours = [
 <footer class="mt-16 bg-gradient-to-tr from-ink-900 to-ink-700 text-ink-100 border-t border-surface-border/20">
   <div class="mx-auto max-w-6xl px-4 py-10 md:py-12 grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-12">
     <div class="space-y-3 md:col-span-2">
-      <p class="text-base font-semibold tracking-tight text-white">{practice.practiceName}</p>
-      <p class="text-sm text-ink-400">{practice.tagline}</p>
+      <p class="text-base font-semibold tracking-tight text-white">{practice?.practiceName}</p>
+      <p class="text-sm text-ink-400">{practice?.tagline}</p>
       <div class="text-sm text-ink-400 space-y-1 leading-relaxed">
-        <p>{practice.addressLine1}{practice.addressLine2 ? `, ${practice.addressLine2}` : ''}</p>
-        <p>{practice.city}, {practice.state}</p>
+        <p>{practice?.addressLine1}{practice?.addressLine2 ? `, ${practice.addressLine2}` : ''}</p>
+        <p>{practice?.city}{practice?.state ? `, ${practice.state}` : ''}</p>
       </div>
       <div class="text-sm text-ink-400 space-y-1 leading-relaxed">
-        <p><a href={practice.phoneHref} class="hover:text-white transition-colors">{practice.phone}</a></p>
-        {practice.email && <p><a href={`mailto:${practice.email}`} class="hover:text-white transition-colors">{practice.email}</a></p>}
+        <p><a href={practice?.phone ? `tel:${practice.phone.replace(/[^0-9+]/g, '')}` : '#'} class="hover:text-white transition-colors">{practice?.phone}</a></p>
+        {practice?.email && <p><a href={`mailto:${practice.email}`} class="hover:text-white transition-colors">{practice.email}</a></p>}
       </div>
     </div>
 
@@ -66,6 +69,6 @@ const hours = [
   </div>
 
   <div class="border-t border-ink-800 px-4 py-4 text-center text-xs text-ink-500">
-    © {year} {practice.practiceName} · Dentist in {practice.city}, {practice.state}
+    © {year} {practice?.practiceName} · Dentist in {practice?.city}{practice?.state ? `, ${practice.state}` : ''}
   </div>
 </footer>
