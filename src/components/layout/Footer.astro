@@ -1,8 +1,8 @@
 ---
 import { secondaryNav } from '../../data/navigation';
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 
-const practiceEntry = await getEntryBySlug("siteSettings", "practice");
+const practiceEntry = await getEntry("siteSettings", "practice");
 const practice = practiceEntry?.data ?? Astro.props.practice;
 const socials = Astro.props.socials ?? practice?.socials ?? [];
 const year = new Date().getFullYear();

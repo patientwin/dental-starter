@@ -1,7 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Section from "../../components/ui/Section.astro";
-import { getEntryBySlug } from "astro:content";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({ params: { slug: post.slug } }));
+}
 
 const { slug } = Astro.params;
 if (!slug) throw new Error("Missing blog slug");

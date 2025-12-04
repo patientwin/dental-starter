@@ -1,8 +1,8 @@
 ---
 import Button from '../ui/Button.astro';
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 
-const practiceEntry = await getEntryBySlug("siteSettings", "practice");
+const practiceEntry = await getEntry("siteSettings", "practice");
 const practiceFromContent = practiceEntry?.data;
 const { practice = practiceFromContent, nav = practiceFromContent?.nav } = Astro.props;
 const navItems = nav ?? [

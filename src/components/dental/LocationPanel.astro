@@ -1,8 +1,8 @@
 ---
 import Button from '../ui/Button.astro';
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 
-const practice = (await getEntryBySlug("siteSettings", "practice"))?.data;
+const practice = (await getEntry("siteSettings", "practice"))?.data;
 const hours = [
   { label: 'Mon-Thu', value: '8:00am – 5:00pm' },
   { label: 'Friday', value: '8:00am – 2:00pm' },

@@ -56,7 +56,7 @@ collections:
     fields:
       - { name: title, label: Title, widget: string }
       - { name: slug, label: Slug, widget: string }
-      - { name: layout, label: Layout, widget: select, options: ["default", "narrow"], default: "default" }
+      - { name: layoutStyle, label: Layout, widget: select, options: ["default", "narrow"], default: "default" }
       - { name: intro, label: Intro, widget: text, required: false }
       - { name: body, label: Body, widget: markdown, required: false }
 

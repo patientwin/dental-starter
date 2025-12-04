@@ -1,12 +1,12 @@
 ---
 import { Image } from "astro:assets";
 import Button from '../ui/Button.astro';
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 import heroImage from '../../assets/hero-dental-office.png';
 
-const homeEntry = await getEntryBySlug("home", "home");
+const homeEntry = await getEntry("home", "home");
 const homeData = homeEntry?.data;
-const siteEntry = await getEntryBySlug("siteSettings", "practice");
+const siteEntry = await getEntry("siteSettings", "practice");
 const site = siteEntry?.data;
 
 const heroHeadline = homeData?.heroHeadline ?? "BrightSide Dental Studio";
