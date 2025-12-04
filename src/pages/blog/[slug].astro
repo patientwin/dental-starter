@@ -1,68 +1,106 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/ui/Section.astro";
+import { getEntryBySlug } from "astro:content";
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
-}
+const { slug } = Astro.params;
+if (!slug) throw new Error("Missing blog slug");
 
-type Props = {
-  post: CollectionEntry<'blog'>;
-};
+const post = await getEntryBySlug("blog", slug);
+if (!post) throw new Error(`Blog post not found for slug: ${slug}`);
 
-const { post } = Astro.props;
 const { Content } = await post.render();
-const allPosts = await getCollection('blog');
-const related = allPosts
-  .filter((p) => p.slug !== post.slug)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const { title, date, excerpt = "", tags } = post.data;
+
+const publishedLabel =
+  date &&
+  new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 ---
 
-<BaseLayout title={`${post.data.title} | BrightSide Dental Studio`} description={post.data.excerpt}>
-  <main class="bg-surface-soft py-12 md:py-16">
-    <div class="mx-auto max-w-3xl px-4 space-y-8">
-      <header class="space-y-2">
-        <p class="text-sm font-medium uppercase tracking-wide text-brand-500">Blog</p>
-        <h1 class="text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">{post.data.title}</h1>
-        {post.data.excerpt && <p class="text-base text-ink-600">{post.data.excerpt}</p>}
-        {post.data.date && (
-          <p class="text-sm text-ink-500">
-            {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </p>
-        )}
-      </header>
+<BaseLayout title={title} description={excerpt}>
+  <main class="bg-surface-soft">
+    <Section class="pt-16 pb-20">
+      <div class="mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-start">
+        <article class="flex-1 rounded-3xl bg-surface p-6 shadow-card ring-1 ring-surface-border md:p-10">
+          <header class="mb-6 border-b border-surface-border pb-6 space-y-4">
+            <p class="text-sm font-medium uppercase tracking-wide text-brand-600">Blog</p>
+            <h1 class="text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
+              {title}
+            </h1>
 
-      <article class="prose prose-slate max-w-none prose-a:text-brand-600 prose-headings:text-ink-900">
-        <Content />
-      </article>
-    </div>
-  </main>
+            <div class="flex flex-wrap items-center gap-3 text-sm text-ink-500">
+              {publishedLabel && (
+                <time datetime={date}>{publishedLabel}</time>
+              )}
 
-  {related.length > 0 && (
-    <section class="bg-surface-soft">
-      <div class="mx-auto max-w-5xl px-4 py-12 md:py-16 space-y-4">
-        <div class="flex items-baseline justify-between">
-          <h2 class="text-2xl md:text-3xl font-heading text-ink-900">More from the blog</h2>
-          <a href="/blog" class="text-sm font-semibold text-brand-600 hover:text-brand-700">View all</a>
-        </div>
-        <div class="grid gap-4 md:grid-cols-3">
-          {related.map((item) => (
-            <a
-              href={`/blog/${item.slug}`}
-              class="group rounded-2xl bg-surface p-5 shadow-card ring-1 ring-surface-border transition hover:-translate-y-1 hover:shadow-lg"
-              key={item.id}
-            >
-              <p class="text-xs uppercase tracking-wide text-brand-600 font-semibold">{item.data.tags?.join(', ')}</p>
-              <h3 class="text-lg font-heading text-ink-900 group-hover:text-brand-600">{item.data.title}</h3>
-              <p class="text-xs text-ink-400">{item.data.date.toLocaleDateString()}</p>
-              <p class="text-sm text-ink-700 mt-1 line-clamp-3">{item.data.excerpt}</p>
-              <span class="text-sm font-semibold text-brand-600">Read more →</span>
-            </a>
-          ))}
-        </div>
+              {tags && tags.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <span class="rounded-full bg-surface-soft px-3 py-1 text-xs font-medium text-ink-600">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {excerpt && (
+              <p class="max-w-2xl text-base text-ink-600">{excerpt}</p>
+            )}
+          </header>
+
+          <div class="prose prose-slate max-w-none prose-a:text-brand-600 prose-headings:text-ink-900 prose-li:marker:text-ink-400 prose-strong:text-ink-900">
+            <Content />
+          </div>
+
+          <div class="mt-10 rounded-2xl bg-halo-mint/40 px-6 py-5 text-sm text-ink-800 md:flex md:items-center md:justify-between">
+            <p class="font-medium">
+              Ready to talk about {(title || "this treatment").toLowerCase()} or other options?
+            </p>
+            <div class="mt-4 flex flex-wrap gap-3 md:mt-0">
+              <a
+                href="/#book"
+                class="inline-flex items-center justify-center rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700"
+              >
+                Request appointment
+              </a>
+              <a
+                href="/contact"
+                class="inline-flex items-center justify-center rounded-full border border-ink-200 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-soft"
+              >
+                Call or message us
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <aside class="w-full max-w-sm space-y-4 lg:sticky lg:top-28 lg:self-start">
+          <div class="rounded-3xl bg-surface p-5 shadow-card ring-1 ring-surface-border">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-500">
+              About this article
+            </h2>
+            <dl class="mt-3 space-y-2 text-sm text-ink-600">
+              <div class="flex justify-between gap-3">
+                <dt class="text-ink-500">Category</dt>
+                <dd>{tags && tags.length ? tags[0] : "General"}</dd>
+              </div>
+
+              {publishedLabel && (
+                <div class="flex justify-between gap-3">
+                  <dt class="text-ink-500">Published</dt>
+                  <dd>
+                    <time datetime={date}>{publishedLabel}</time>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        </aside>
       </div>
-    </section>
-  )}
+    </Section>
+  </main>
 </BaseLayout>
