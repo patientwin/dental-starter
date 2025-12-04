@@ -3,106 +3,280 @@ media:
   output: /images/uploads
 
 collections:
-  - name: Site Settings
+  # Single JSON document that powers practice-wide settings
+  - name: siteSettings
+    label: Site settings
     folder: src/content/siteSettings
-    path: "{{ slug }}.json"
+    path: "practice.json"
     format: json
+    create: false
     fields:
-      - { name: practiceName, label: Practice Name, widget: string }
-      - { name: tagline, label: Tagline, widget: string }
-      - { name: city, label: City, widget: string }
-      - { name: state, label: State/Region, widget: string }
-      - { name: phone, label: Phone, widget: string }
-      - { name: email, label: Email, widget: string, required: false }
-      - { name: addressLine1, label: Address Line 1, widget: string }
-      - { name: addressLine2, label: Address Line 2, widget: string, required: false }
-      - { name: googleMapsUrl, label: Google Maps URL, widget: string, required: false }
+      - name: practiceName
+        label: Practice Name
+        widget: string
+      - name: tagline
+        label: Tagline
+        widget: string
+      - name: city
+        label: City
+        widget: string
+      - name: state
+        label: State/Region
+        widget: string
+      - name: phone
+        label: Phone
+        widget: string
+      - name: email
+        label: Email
+        widget: string
+        required: false
+      - name: addressLine1
+        label: Address Line 1
+        widget: string
+      - name: addressLine2
+        label: Address Line 2
+        widget: string
+        required: false
+      - name: googleMapsUrl
+        label: Google Maps URL
+        widget: string
+        required: false
+      - name: hours
+        label: Hours
+        widget: list
+        required: false
+        fields:
+          - name: label
+            label: Label
+            widget: string
+          - name: value
+            label: Value
+            widget: string
       - name: nav
         label: Navigation
         widget: list
+        required: false
         fields:
-          - { name: label, label: Label, widget: string }
-          - { name: href, label: Href, widget: string }
+          - name: label
+            label: Label
+            widget: string
+          - name: href
+            label: Href
+            widget: string
       - name: socials
         label: Social Links
         widget: list
+        required: false
         fields:
-          - { name: label, label: Label, widget: string }
-          - { name: href, label: Href, widget: string }
+          - name: label
+            label: Label
+            widget: string
+          - name: href
+            label: Href
+            widget: string
 
-  - name: Home
+  # Home hero + high-level homepage content
+  - name: home
+    label: Home
     folder: src/content/home
-    path: "{{ slug }}.md"
+    path: "home.md"
     format: frontmatter
-    create: true
+    create: false
     fields:
-      - { name: title, label: Title, widget: hidden, default: home }
-      - { name: heroHeadline, label: Hero Headline, widget: string }
-      - { name: heroSubheadline, label: Hero Subheadline, widget: text }
-      - { name: heroBadge, label: Hero Badge, widget: string, required: false }
-      - { name: heroPrimaryCtaLabel, label: Primary CTA Label, widget: string }
-      - { name: heroPrimaryCtaHref, label: Primary CTA Href, widget: string }
-      - { name: heroSecondaryCtaLabel, label: Secondary CTA Label, widget: string }
-      - { name: heroSecondaryCtaHref, label: Secondary CTA Href, widget: string }
-      - { name: reviewLine, label: Review Line, widget: string, required: false }
-      - { name: insuranceNote, label: Insurance Note, widget: string, required: false }
-      - { name: body, label: Body, widget: markdown, required: false }
+      - name: title
+        label: Title
+        widget: hidden
+        default: home
+      - name: heroHeadline
+        label: Hero Headline
+        widget: string
+      - name: heroSubheadline
+        label: Hero Subheadline
+        widget: text
+      - name: heroBadge
+        label: Hero Badge
+        widget: string
+        required: false
+      - name: heroPrimaryCtaLabel
+        label: Primary CTA Label
+        widget: string
+      - name: heroPrimaryCtaHref
+        label: Primary CTA Href
+        widget: string
+      - name: heroSecondaryCtaLabel
+        label: Secondary CTA Label
+        widget: string
+      - name: heroSecondaryCtaHref
+        label: Secondary CTA Href
+        widget: string
+      - name: reviewLine
+        label: Review Line
+        widget: string
+        required: false
+      - name: insuranceNote
+        label: Insurance Note
+        widget: string
+        required: false
+      - name: body
+        label: Body
+        widget: markdown
+        required: false
 
-  - name: Pages
+  # General-purpose pages collection (About, New Patients, etc.)
+  - name: pages
+    label: Pages
     folder: src/content/pages
     path: "{{ slug }}.md"
     format: frontmatter
     create: true
     fields:
-      - { name: title, label: Title, widget: string }
-      - { name: slug, label: Slug, widget: string }
-      - { name: layoutStyle, label: Layout, widget: select, options: ["default", "narrow"], default: "default" }
-      - { name: intro, label: Intro, widget: text, required: false }
-      - { name: body, label: Body, widget: markdown, required: false }
+      - name: title
+        label: Title
+        widget: string
+      - name: slug
+        label: Slug
+        widget: string
+      - name: layout
+        label: Layout
+        widget: select
+        options: ["default", "narrow"]
+        default: "default"
+      - name: intro
+        label: Intro
+        widget: text
+        required: false
+      - name: body
+        label: Body
+        widget: markdown
+        required: false
 
-  - name: Team
+  # Doctors / team members
+  - name: team
+    label: Team
     folder: src/content/team
     path: "{{ slug }}.md"
     format: frontmatter
     create: true
     fields:
-      - { name: name, label: Name, widget: string }
-      - { name: slug, label: Slug, widget: string }
-      - { name: role, label: Role, widget: string }
-      - { name: credentials, label: Credentials, widget: list, required: false }
-      - { name: badges, label: Badges, widget: list, required: false }
-      - { name: headshot, label: Headshot, widget: string, required: false }
-      - { name: bioShort, label: Short Bio, widget: text }
-      - { name: bioLong, label: Long Bio, widget: text, required: false }
-      - { name: focusAreas, label: Focus Areas, widget: list, required: false }
-      - { name: order, label: Order, widget: number, default: 0 }
-      - { name: featured, label: Featured, widget: boolean, default: false }
-      - { name: body, label: Body, widget: markdown, required: false }
+      - name: name
+        label: Name
+        widget: string
+      - name: slug
+        label: Slug
+        widget: string
+      - name: role
+        label: Role
+        widget: string
+      - name: credentials
+        label: Credentials
+        widget: list
+        required: false
+        field:
+          name: item
+          label: Credential
+          widget: string
+      - name: badges
+        label: Badges
+        widget: list
+        required: false
+        field:
+          name: item
+          label: Badge
+          widget: string
+      - name: headshot
+        label: Headshot (image path or URL)
+        widget: string
+        required: false
+      - name: bioShort
+        label: Short Bio
+        widget: text
+      - name: bioLong
+        label: Long Bio
+        widget: text
+        required: false
+      - name: focusAreas
+        label: Focus Areas
+        widget: list
+        required: false
+        field:
+          name: item
+          label: Focus Area
+          widget: string
+      - name: order
+        label: Order
+        widget: number
+        default: 0
+      - name: body
+        label: Body
+        widget: markdown
+        required: false
 
-  - name: Services
+  # Services / treatments
+  - name: services
+    label: Services
     folder: src/content/services
     path: "{{ slug }}.md"
     format: frontmatter
     create: true
     fields:
-      - { name: name, label: Name, widget: string }
-      - { name: slug, label: Slug, widget: string }
-      - { name: category, label: Category, widget: string, required: false }
-      - { name: tagline, label: Tagline, widget: string, required: false }
-      - { name: summary, label: Summary, widget: text }
-      - { name: order, label: Order, widget: number, default: 0 }
-      - { name: featured, label: Featured, widget: boolean, default: false }
-      - { name: body, label: Body, widget: markdown, required: false }
+      - name: name
+        label: Name
+        widget: string
+      - name: slug
+        label: Slug
+        widget: string
+      - name: category
+        label: Category
+        widget: string
+        required: false
+      - name: tagline
+        label: Tagline
+        widget: string
+        required: false
+      - name: summary
+        label: Summary
+        widget: text
+      - name: order
+        label: Order
+        widget: number
+        default: 0
+      - name: featured
+        label: Featured
+        widget: boolean
+        default: false
+      - name: body
+        label: Body
+        widget: markdown
+        required: false
 
-  - name: Blog
+  # Blog posts
+  - name: blog
+    label: Blog
     folder: src/content/blog
     path: "{{ slug }}.md"
     format: frontmatter
     create: true
     fields:
-      - { name: title, label: Title, widget: string }
-      - { name: slug, label: Slug, widget: string }
-      - { name: date, label: Date, widget: datetime }
-      - { name: excerpt, label: Excerpt, widget: text }
-      - { name: tags, label: Tags, widget: list, required: false }
-      - { name: body, label: Body, widget: markdown }
+      - name: title
+        label: Title
+        widget: string
+      - name: slug
+        label: Slug
+        widget: string
+      - name: date
+        label: Date
+        widget: datetime
+      - name: excerpt
+        label: Excerpt
+        widget: text
+      - name: tags
+        label: Tags
+        widget: list
+        required: false
+        field:
+          name: tag
+          label: Tag
+          widget: string
+      - name: body
+        label: Body
+        widget: markdown
