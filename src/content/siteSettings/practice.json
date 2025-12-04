@@ -2,7 +2,7 @@
   "practiceName": "BrightSide Dental Studio",
   "tagline": "Comfort-focused family and cosmetic dentistry in your neighborhood.",
   "city": "Sampletown",
-  "state": "CA 90210",
+  "state": "MI",
   "phone": "(555) 123-4567",
   "email": "hello@brightsidedental.com",
   "addressLine1": "123 Main Street",
@@ -25,5 +25,10 @@
     { "label": "TikTok", "href": "https://tiktok.com" },
     { "label": "YouTube", "href": "https://youtube.com" },
     { "label": "Google Reviews", "href": "https://maps.google.com/reviews" }
+  ],
+  "hours": [
+    { "label": "Mon–Thu", "value": "8:00am – 5:00pm" },
+    { "label": "Friday", "value": "8:00am – 2:00pm" },
+    { "label": "Saturday", "value": "By appointment" }
   ]
 }

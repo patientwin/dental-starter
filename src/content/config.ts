@@ -12,6 +12,12 @@ const siteSettings = defineCollection({
     addressLine1: z.string(),
     addressLine2: z.string().optional(),
     googleMapsUrl: z.string().url().optional(),
+    hours: z.array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+      })
+    ),
     nav: z.array(
       z.object({
         label: z.string(),

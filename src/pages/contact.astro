@@ -2,56 +2,115 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
-const site = await getEntry('siteSettings', 'practice');
-const practice = {
-  ...site.data,
-  phoneHref: `tel:${site.data.phone.replace(/[^0-9+]/g, '')}`,
-};
-const hours = [
-  { label: 'Mon-Thu', value: '8:00am – 5:00pm' },
-  { label: 'Friday', value: '8:00am – 2:00pm' },
-  { label: 'Saturday', value: 'By appointment' },
-];
+const siteSettings = await getCollection('siteSettings');
+const site = siteSettings[0];
+
+if (!site) {
+  throw new Error('Missing siteSettings entry. Add src/content/siteSettings/practice.json.');
+}
+
+const contactPage = await getEntry('pages', 'contact');
+
+if (!contactPage) {
+  throw new Error('Missing contact page content in src/content/pages/contact.md.');
+}
+
+const { data: page } = contactPage;
+const settings = site.data;
+const phoneHref = `tel:${settings.phone.replace(/[^0-9+]/g, '')}`;
+const fullAddress = [settings.addressLine1, settings.addressLine2].filter(Boolean).join(', ');
 ---
 
-<BaseLayout
-  title="Contact Us | BrightSide Dental Studio"
-  description="Get in touch with BrightSide Dental Studio. Call, message, or visit us for family and cosmetic dentistry in Sampletown."
->
-  <Section>
-    <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] items-start">
+<BaseLayout title={page.title ?? 'Contact'} description={page.intro}>
+  <main class="bg-surface-soft">
+    <Section>
       <div class="space-y-4">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Contact</p>
-        <h1 class="text-3xl md:text-4xl font-heading text-neutral">We’re here to help</h1>
-        <p class="text-sm text-gray-700">Call, text, or message us. We’ll answer questions, verify insurance, and help you plan your visit.</p>
-        <div class="space-y-2 text-sm text-gray-700">
-          <p><strong>Phone:</strong> <a href={practice.phoneHref} class="text-primary font-semibold">{practice.phone}</a></p>
-          {practice.email && <p><strong>Email:</strong> <a href={`mailto:${practice.email}`} class="text-primary font-semibold">{practice.email}</a></p>}
-          <p><strong>Address:</strong> {practice.addressLine1}{practice.addressLine2 ? `, ${practice.addressLine2}` : ''}, {practice.city}, {practice.state}</p>
-        </div>
-        <div class="space-y-1 text-sm text-gray-700">
-          <p class="font-semibold text-neutral">Hours</p>
-          {hours.map((entry) => (
-            <p>{entry.label}: {entry.value}</p>
-          ))}
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <Button href={practice.phoneHref} variant="primary">Call us</Button>
-          {practice.googleMapsUrl && <Button href={practice.googleMapsUrl} variant="outline">Get directions</Button>}
-        </div>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">Contact</p>
+        <h1 class="text-3xl font-semibold text-ink-900 md:text-4xl">{page.title}</h1>
+        {page.intro && <p class="max-w-2xl text-base text-ink-600">{page.intro}</p>}
       </div>
 
-      <div class="rounded-2xl bg-white p-4 shadow-card ring-1 ring-gray-100">
-        <div class="aspect-video w-full overflow-hidden rounded-xl bg-gray-100">
-          {practice.googleMapsUrl ? (
-            <iframe title="Map to BrightSide Dental Studio" src={practice.googleMapsUrl} class="h-full w-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          ) : (
-            <div class="h-full w-full flex items-center justify-center text-sm text-gray-500">Map coming soon</div>
+      <div class="mt-10 grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start">
+        <div class="space-y-6 text-sm leading-relaxed text-ink-700">
+          <div>
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-600">Phone</h2>
+            <p class="mt-1">
+              <a href={phoneHref} class="text-brand-600 hover:text-brand-700">
+                {settings.phone}
+              </a>
+            </p>
+          </div>
+
+          <div>
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-600">Email</h2>
+            {settings.email && (
+              <p class="mt-1">
+                <a href={`mailto:${settings.email}`} class="text-brand-600 hover:text-brand-700">
+                  {settings.email}
+                </a>
+              </p>
+            )}
+          </div>
+
+          <div>
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-600">Address</h2>
+            <p class="mt-1 whitespace-pre-line">
+              {fullAddress}
+              <br />
+              {settings.city}, {settings.state}
+            </p>
+          </div>
+
+          {Array.isArray(settings.hours) && settings.hours.length > 0 && (
+            <div>
+              <h2 class="text-sm font-semibold uppercase tracking-wide text-ink-600">Hours</h2>
+              <dl class="mt-2 space-y-1">
+                {settings.hours.map((row) => (
+                  <div class="flex justify-between gap-4" data-key={row.label}>
+                    <dt class="text-ink-500">{row.label}</dt>
+                    <dd class="text-ink-900">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           )}
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a
+              href={phoneHref}
+              class="inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand-600"
+            >
+              Call us
+            </a>
+            {settings.googleMapsUrl && (
+              <a
+                href={settings.googleMapsUrl}
+                class="inline-flex items-center justify-center rounded-full border border-surface-border bg-white px-5 py-2.5 text-sm font-medium text-ink-900 shadow-sm hover:bg-surface-soft"
+              >
+                Get directions
+              </a>
+            )}
+          </div>
         </div>
+
+        <aside class="rounded-3xl bg-white shadow-card-soft ring-1 ring-surface-border/50 overflow-hidden min-h-[260px]">
+          {settings.googleMapsUrl ? (
+            <iframe
+              src={settings.googleMapsUrl}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="h-full w-full min-h-[260px]"
+              title={`Map to ${settings.practiceName}`}
+            />
+          ) : (
+            <div class="flex h-full min-h-[260px] items-center justify-center px-6 py-8 text-center text-sm text-ink-500">
+              Map coming soon — add a Google Maps URL in Site Settings.
+            </div>
+          )}
+        </aside>
       </div>
-    </div>
-  </Section>
+    </Section>
+  </main>
 </BaseLayout>

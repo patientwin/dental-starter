@@ -189,6 +189,13 @@ declare module 'astro:content' {
   collection: "pages";
   data: InferEntrySchema<"pages">
 } & { render(): Render[".md"] };
+"contact.md": {
+	id: "contact.md";
+  slug: "contact";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
 };
 "services": {
 "clear-aligners.md": {
