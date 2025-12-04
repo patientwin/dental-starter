@@ -1,0 +1,62 @@
+---
+import { practice } from '../../data/site';
+import { footerNav, secondaryNav } from '../../data/navigation';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 bg-gradient-to-tr from-ink-900 to-ink-700 text-ink-100 border-t border-surface-border/20">
+  <div class="mx-auto max-w-6xl px-4 py-10 md:py-12 grid grid-cols-1 gap-10 md:grid-cols-4 md:gap-12">
+    <div class="space-y-3 md:col-span-2">
+      <p class="text-base font-semibold tracking-tight text-white">{practice.name}</p>
+      <p class="text-sm text-ink-400">{practice.tagline}</p>
+      <div class="text-sm text-ink-400 space-y-1 leading-relaxed">
+        <p>{practice.address.line1}{practice.address.line2 ? `, ${practice.address.line2}` : ''}</p>
+        <p>{practice.address.city}, {practice.address.state} {practice.address.zip}</p>
+      </div>
+      <div class="text-sm text-ink-400 space-y-1 leading-relaxed">
+        <p><a href={practice.phoneHref} class="hover:text-white transition-colors">{practice.phone}</a></p>
+        <p><a href={`mailto:${practice.email}`} class="hover:text-white transition-colors">{practice.email}</a></p>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-300">Quick Links</p>
+      <ul class="space-y-2 text-sm text-ink-400 leading-relaxed">
+        {footerNav.map((item) => (
+          <li><a href={item.href} class="hover:text-white transition-colors">{item.label}</a></li>
+        ))}
+      </ul>
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-300 mt-6">Legal</p>
+      <ul class="space-y-2 text-sm text-ink-400 leading-relaxed">
+        {secondaryNav.map((item) => (
+          <li><a href={item.href} class="hover:text-white transition-colors">{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-300">Hours</p>
+      <ul class="text-sm text-ink-400 space-y-1 leading-relaxed">
+        {practice.hours.map((entry) => (
+          <li>{entry.label}: {entry.value}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-300">Connect</p>
+      <div class="flex flex-wrap gap-3 text-sm text-ink-400">
+        {practice.social.facebook && <a href={practice.social.facebook} class="hover:text-white transition-colors">Facebook</a>}
+        {practice.social.instagram && <a href={practice.social.instagram} class="hover:text-white transition-colors">Instagram</a>}
+        {practice.social.tiktok && <a href={practice.social.tiktok} class="hover:text-white transition-colors">TikTok</a>}
+        {practice.social.youtube && <a href={practice.social.youtube} class="hover:text-white transition-colors">YouTube</a>}
+        {practice.social.linkedin && <a href={practice.social.linkedin} class="hover:text-white transition-colors">LinkedIn</a>}
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-ink-800 px-4 py-4 text-center text-xs text-ink-500">
+    © {year} {practice.name} · Dentist in Sampletown, MI
+  </div>
+</footer>

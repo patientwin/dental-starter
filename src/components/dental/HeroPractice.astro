@@ -1,0 +1,52 @@
+---
+import Button from '../ui/Button.astro';
+import { practice } from '../../data/site';
+---
+
+<section
+  class="relative overflow-hidden bg-cover bg-center bg-ink-900 text-white before:absolute before:inset-0 before:bg-gradient-to-br before:from-ink-900/80 before:via-ink-900/55 before:to-halo-mint/70 before:mix-blend-multiply before:content-[''] after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-gradient-to-r after:from-surface-soft/0 after:via-surface-soft/60 after:to-surface-soft/0"
+  style="background-image: url('/images/hero-dental-office.png');"
+>
+  <div class="relative mx-auto flex min-h-[70vh] w-full max-w-6xl flex-col items-end justify-end px-4 pb-10 pt-28 md:flex-row md:items-center md:gap-12 md:py-24">
+    <div class="relative max-w-xl space-y-6 rounded-3xl bg-black/10 px-6 py-5 text-white backdrop-blur-[2px] md:px-7 md:py-6">
+      <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur-sm shadow-card-soft">
+        <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" />
+        </svg>
+        Comfort-focused care
+      </div>
+      <div class="space-y-3">
+        <h1 class="font-heading text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">{practice.name}</h1>
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-white/80 md:max-w-2xl md:text-base md:text-white/85">{practice.tagline}</p>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <span class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/25 backdrop-blur">
+          <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 17l-5.09 2.67 1-5.82-4.22-4.11 5.83-.85L12 3l2.48 5.89 5.83.85-4.22 4.11 1 5.82z" />
+          </svg>
+          5★ Rated
+        </span>
+        <span class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white/90 ring-1 ring-white/20 backdrop-blur">
+          <svg class="h-4 w-4 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          Comfort-focused care
+        </span>
+      </div>
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <Button href={practice.primaryCTA.href} variant="primary" class="w-full px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-500/30 sm:w-auto md:text-base bg-brand-500 hover:bg-brand-600">
+          {practice.primaryCTA.label}
+        </Button>
+        <Button
+          href={practice.secondaryCTA.href}
+          variant="outline"
+          class="w-full border border-white/40 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15 sm:w-auto md:text-base"
+        >
+          {practice.secondaryCTA.label}
+        </Button>
+      </div>
+      <p class="text-sm leading-relaxed text-white/80">Serving families in {practice.address.city} and surrounding communities.</p>
+    </div>
+  </div>
+</section>

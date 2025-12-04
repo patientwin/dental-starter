@@ -1,0 +1,89 @@
+---
+import { mainNav } from '../../data/navigation';
+import { practice } from '../../data/site';
+import Button from '../ui/Button.astro';
+---
+
+<header class="sticky top-0 z-50 bg-surface/95 backdrop-blur border-b border-surface-border shadow-sm">
+  <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-4 justify-between lg:justify-start">
+    <a href="/" class="flex items-center gap-2 shrink-0">
+      <div class="h-10 w-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold">BS</div>
+      <div class="leading-tight hidden sm:block">
+        <p class="font-heading text-lg text-ink-900 tracking-tight">{practice.name}</p>
+        <p class="text-[13px] text-ink-400 leading-tight">{practice.tagline}</p>
+      </div>
+    </a>
+
+    <nav class="hidden lg:flex flex-1 items-center justify-center gap-6 text-sm">
+      {mainNav.map((item) =>
+        item.children ? (
+          <div class="relative group inline-block" key={item.label}>
+            <a href={item.href} class="font-medium text-ink-600 hover:text-ink-900 whitespace-nowrap inline-flex items-center gap-1 tracking-tight border-b-2 border-transparent group-hover:border-brand-500">
+              {item.label}
+              <svg class="h-3 w-3 text-ink-400 group-hover:text-brand-500" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <div class="absolute left-0 top-full z-20 min-w-[220px] rounded-xl border border-surface-border bg-surface shadow-lg opacity-0 pointer-events-none translate-y-0 transition duration-150 ease-out group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto">
+              <div class="py-2">
+                {item.children.map((child) => (
+                  <a href={child.href} class="block px-4 py-2 text-sm text-ink-600 hover:bg-surface-soft hover:text-brand-600 whitespace-nowrap" key={child.label}>
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class="font-medium text-ink-600 hover:text-ink-900 whitespace-nowrap tracking-tight border-b-2 border-transparent hover:border-brand-500" key={item.label}>{item.label}</a>
+        )
+      )}
+    </nav>
+
+    <div class="hidden lg:block shrink-0">
+      <Button href={practice.primaryCTA.href} variant="primary" class="px-4 py-2 text-sm">
+        {practice.primaryCTA.label}
+      </Button>
+    </div>
+
+    <button class="lg:hidden button-reset" aria-label="Toggle navigation" id="mobile-toggle">
+      <svg class="h-7 w-7 text-ink-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="6" x2="20" y2="6" />
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <line x1="4" y1="18" x2="20" y2="18" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="lg:hidden hidden border-t border-surface-border bg-surface">
+    <div class="px-4 py-4 space-y-3">
+      {mainNav.map((item) =>
+        item.children ? (
+          <details class="group border border-surface-border rounded-lg" key={item.label}>
+            <summary class="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-base font-medium text-ink-800">
+              <span>{item.label}</span>
+              <svg class="h-4 w-4 text-ink-400 group-open:rotate-180 transition" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <div class="border-t border-surface-border bg-surface-soft">
+              {item.children.map((child) => (
+                <a href={child.href} class="block px-3 py-2 text-sm text-ink-600 hover:text-brand-600" key={child.label}>{child.label}</a>
+              ))}
+            </div>
+          </details>
+        ) : (
+          <a href={item.href} class="block text-base font-medium text-ink-700 hover:text-brand-600" key={item.label}>{item.label}</a>
+        )
+      )}
+      <Button href={practice.primaryCTA.href} variant="primary" class="w-full justify-center">{practice.primaryCTA.label}</Button>
+      <Button href={practice.secondaryCTA.href} variant="outline" class="w-full justify-center">{practice.secondaryCTA.label}</Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+</script>

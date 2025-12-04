@@ -1,0 +1,30 @@
+---
+import '../styles/global.css';
+import SiteHead from '../components/layout/SiteHead.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import StickyBottomBar from '../components/ui/StickyBottomBar.astro';
+import { siteMeta } from '../data/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  noIndex?: boolean;
+}
+
+const { title, description, noIndex } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <SiteHead title={title ?? siteMeta.title} description={description ?? siteMeta.description} noIndex={noIndex} />
+  </head>
+  <body class="bg-background text-neutral">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <StickyBottomBar />
+  </body>
+</html>

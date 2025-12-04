@@ -1,0 +1,46 @@
+<form name="appointment-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4 bg-white p-6 rounded-2xl shadow-card ring-1 ring-gray-100">
+  <input type="hidden" name="form-name" value="appointment-request" />
+  <input type="hidden" name="sourcePage" value="" />
+  <p class="hidden">
+    <label>Don’t fill this out: <input name="bot-field" /></label>
+  </p>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-name">Name</label>
+      <input id="appt-name" name="name" type="text" required class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none" />
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-email">Email</label>
+      <input id="appt-email" name="email" type="email" required class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none" />
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-phone">Phone</label>
+      <input id="appt-phone" name="phone" type="tel" required class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none" />
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-day">Preferred Day</label>
+      <select id="appt-day" name="preferredDay" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none">
+        <option value="">Choose a day</option>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-time">Preferred Time</label>
+      <select id="appt-time" name="preferredTime" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none">
+        <option value="">Choose a time</option>
+        <option>Morning</option>
+        <option>Midday</option>
+        <option>Afternoon</option>
+      </select>
+    </div>
+  </div>
+  <div>
+      <label class="block text-sm font-semibold text-neutral mb-1" for="appt-reason">Reason for visit</label>
+    <textarea id="appt-reason" name="reason" rows="4" class="w-full rounded-lg border border-gray-200 px-3 py-2 focus:border-primary focus:outline-none" placeholder="Cleaning, tooth pain, cosmetic consult, etc."></textarea>
+  </div>
+  <button type="submit" class="w-full rounded-full bg-secondary px-4 py-2 text-white font-semibold hover:brightness-110">Request Appointment</button>
+</form>

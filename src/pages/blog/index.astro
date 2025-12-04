@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import Button from '../../components/ui/Button.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+---
+
+<BaseLayout title="Dental Blog | BrightSide Dental Studio in Sampletown, MI" description="Dental tips, patient guides, and practice updates from BrightSide Dental Studio in Sampletown. Family, cosmetic, and implant dentistry insights.">
+  <Section>
+    <div class="space-y-4">
+      <p class="text-sm uppercase tracking-wide text-brand-600 font-semibold">BrightSide Dental Studio</p>
+      <h1 class="text-3xl md:text-4xl font-heading text-ink-900">Dental tips for Sampletown families</h1>
+      <p class="text-base text-ink-700 max-w-4xl">
+        Practical guidance on oral health, cosmetic dentistry, and dental implants in Sampletown. Written by our team to help you make confident decisions.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <Button href="/new-patients" variant="primary">Request appointment</Button>
+        <Button href="/services" variant="outline">Explore services</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="grid gap-6 md:grid-cols-2">
+      {posts.map((post) => (
+        <a
+          href={`/blog/${post.slug}`}
+          class="group rounded-2xl bg-surface p-6 shadow-card ring-1 ring-surface-border transition hover:-translate-y-1 hover:shadow-lg"
+          key={post.id}
+        >
+          <div class="flex items-center justify-between text-xs text-ink-400">
+            <span class="uppercase tracking-wide text-brand-600 font-semibold">{post.data.tags.join(', ')}</span>
+            <span>{post.data.publishedDate.toLocaleDateString()}</span>
+          </div>
+          <h2 class="mt-2 text-2xl font-heading text-ink-900 group-hover:text-brand-600">{post.data.title}</h2>
+          <p class="text-sm text-ink-700 mt-2 mb-3">{post.data.excerpt}</p>
+          <span class="text-sm font-semibold text-brand-600">Read more →</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+</BaseLayout>

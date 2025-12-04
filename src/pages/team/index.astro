@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+interface Doctor {
+  slug: string;
+  name: string;
+  role: string;
+  summary: string;
+  school: string;
+  headshot?: string | null;
+}
+
+const doctors: Doctor[] = [
+  {
+    slug: 'dr-jane-doe',
+    name: 'Dr. Jane Doe',
+    role: 'General & Cosmetic Dentist',
+    summary: 'Gentle, tech-forward care with a focus on patient comfort.',
+    school: 'DDS, University of Smile',
+    headshot: '/images/team/dr-jane-doe.png',
+  },
+  {
+    slug: 'dr-john-smith',
+    name: 'Dr. John Smith',
+    role: 'Implant & Restorative Dentist',
+    summary: 'Precision-focused care for implants, full-mouth rehab, and long-lasting restorations.',
+    school: 'DDS, University of Michigan',
+    headshot: null,
+  },
+  {
+    slug: 'dr-amy-lee',
+    name: 'Dr. Amy Lee',
+    role: 'Cosmetic & Clear Aligners Dentist',
+    summary: 'Smile design and clear aligner care with a gentle, aesthetics-first approach.',
+    school: 'DDS, University of Detroit Mercy',
+    headshot: null,
+  },
+  {
+    slug: 'dr-michael-rodriguez',
+    name: 'Dr. Michael Rodriguez',
+    role: 'Family & Preventive Dentist',
+    summary: 'Family-friendly care focused on prevention, comfort, and clear guidance.',
+    school: 'DDS, Michigan State University',
+    headshot: null,
+  },
+];
+
+const getInitials = (name: string) =>
+  name
+    .split(' ')
+    .map((p) => p[0])
+    .join('')
+    .slice(0, 2) || 'BD';
+---
+
+<BaseLayout
+  title="Meet the Team | BrightSide Dental Studio in Sampletown"
+  description="Meet the doctors and team at BrightSide Dental Studio in Sampletown, MI. Gentle, comfort-focused dental care with modern technology."
+>
+  <Section>
+    <div class="space-y-4">
+      <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Team' }]} />
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent-500">Our dentists</p>
+      <h1 class="font-heading text-3xl tracking-tight text-ink-900 md:text-4xl">Gentle, tech-forward dentistry in Sampletown</h1>
+      <p class="max-w-3xl text-base leading-relaxed text-ink-700">
+        We’re a friendly, highly trained team focused on comfort, clarity, and results. From family visits to dental implants and clear aligners, we tailor care to your goals and keep every step transparent.
+      </p>
+      <div class="mt-4 flex items-center gap-4">
+        <div class="flex -space-x-3">
+          {doctors.slice(0, 4).map((doc) => {
+            const initials = getInitials(doc.name);
+            const headshot = doc.headshot;
+            return (
+              <div class="h-10 w-10 overflow-hidden rounded-full bg-surface-soft ring-2 ring-surface shadow-card-soft md:h-12 md:w-12">
+                {headshot ? (
+                  <img src={headshot} alt={doc.name} class="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center bg-brand-50 text-xs font-semibold text-brand-700 md:text-sm">
+                    {initials}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <p class="text-xs text-ink-500 md:text-sm">{doctors.length} dentists and a full support team focused on your care.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <section class="mt-0 w-full">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {doctors.map((doc) => {
+          const initials = getInitials(doc.name);
+          return (
+            <article class="flex h-full flex-col overflow-hidden rounded-3xl bg-surface shadow-card-soft ring-1 ring-surface-border/70">
+              <div class="h-44 w-full overflow-hidden bg-surface-soft">
+                {doc.headshot ? (
+                  <img src={doc.headshot} alt={`Portrait of ${doc.name}, ${doc.role} at BrightSide Dental Studio.`} class="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center bg-brand-50 text-2xl font-semibold text-brand-700">{initials}</div>
+                )}
+              </div>
+
+              <div class="flex h-full flex-col space-y-2 px-5 py-4">
+                <div class="space-y-1">
+                  <h3 class="text-base font-semibold text-ink-900">{doc.name}</h3>
+                  <p class="text-xs font-medium uppercase tracking-wide text-ink-400">{doc.role}</p>
+                  <p class="text-sm leading-relaxed text-ink-600">{doc.summary}</p>
+                </div>
+
+                <div class="mt-3 flex items-center justify-between text-xs text-ink-500">
+                  {doc.school && <span>{doc.school}</span>}
+                  <a href={`/team/${doc.slug}`} class="ml-auto inline-flex items-center text-sm font-medium text-brand-600 hover:text-brand-700">
+                    View bio →
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  </Section>
+
+  <Section>
+    <div class="flex flex-col gap-4 rounded-3xl bg-gradient-to-br from-halo-blue via-surface-soft to-halo-mint p-6 shadow-card-soft ring-1 ring-surface-border md:flex-row md:items-center md:justify-between md:p-8">
+      <div class="space-y-2">
+        <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">Ready to meet us?</p>
+        <h2 class="font-heading text-xl font-semibold tracking-tight text-ink-900 md:text-2xl">Book a visit with BrightSide Dental Studio</h2>
+        <p class="max-w-3xl text-sm leading-relaxed text-ink-600">Call, text, or request an appointment. We’ll verify insurance, answer questions, and help you plan your first visit.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/new-patients" class="inline-flex items-center justify-center rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white shadow-card-soft transition hover:bg-brand-600">Request appointment</a>
+        <a href="/contact" class="inline-flex items-center justify-center rounded-full border border-surface-border px-4 py-2 text-sm font-semibold text-ink-800 bg-surface hover:bg-surface-soft">Contact</a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

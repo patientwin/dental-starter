@@ -1,0 +1,12 @@
+<section class="bg-surface-soft border-t border-b border-surface-border">
+  <div class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between">
+    <p class="text-sm font-semibold text-ink-800 md:text-base">We accept most major insurances</p>
+    <div class="mt-1 flex gap-2 overflow-x-auto snap-x snap-mandatory pb-2 pt-1 text-sm text-ink-600 [-webkit-overflow-scrolling:touch] md:flex-wrap md:overflow-visible md:pb-0">
+      {['Delta Dental', 'MetLife', 'Cigna', 'Aetna', 'Guardian', 'United Concordia'].map((payer) => (
+        <span class="snap-start shrink-0 whitespace-nowrap rounded-full bg-surface px-4 py-1 text-xs font-medium text-ink-600 shadow-sm ring-1 ring-surface-border">
+          {payer}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+import { practice, siteMeta } from '../../data/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  noIndex?: boolean;
+}
+
+const { title = siteMeta.title, description = siteMeta.description, noIndex = false } = Astro.props;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: practice.name,
+  image: siteMeta.ogImage,
+  telephone: practice.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${practice.address.line1}${practice.address.line2 ? `, ${practice.address.line2}` : ''}`,
+    addressLocality: practice.address.city,
+    addressRegion: practice.address.state,
+    postalCode: practice.address.zip,
+  },
+  url: 'https://www.example-dental.com',
+  geo: undefined,
+};
+---
+
+<title>{title}</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+{noIndex && <meta name="robots" content="noindex" />}
+<link rel="icon" href="/favicon.ico" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={siteMeta.ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={siteMeta.ogImage} />
+<script type="application/ld+json">{JSON.stringify(structuredData)}</script>

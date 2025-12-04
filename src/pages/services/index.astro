@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import Button from '../../components/ui/Button.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const grouped = services.reduce<Record<string, typeof services>>((acc, item) => {
+  if (!acc[item.data.category]) acc[item.data.category] = [];
+  acc[item.data.category].push(item);
+  return acc;
+}, {});
+---
+
+<BaseLayout title="Dental Services | BrightSide Dental Studio in Sampletown, MI" description="Family, cosmetic, and implant dentistry in Sampletown, Michigan. Explore our services and plan your next visit.">
+  <Section>
+    <div class="space-y-4">
+      <p class="text-sm uppercase tracking-wide text-primary font-semibold">Dental services</p>
+      <h1 class="text-3xl md:text-4xl font-heading text-neutral">Comfort-focused family and cosmetic dentistry in Sampletown</h1>
+      <p class="text-base text-gray-700 max-w-4xl">
+        From routine checkups to dental implants and clear aligners, we tailor care to your goals, budget, and comfort level. Explore our most-requested services and plan your visit.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <Button href="/new-patients" variant="primary">Request appointment</Button>
+        <Button href="/contact" variant="outline">Call our office</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="rounded-3xl bg-gradient-to-br from-primary/8 via-white to-secondary/8 p-6 md:p-8 shadow-card ring-1 ring-primary/10 space-y-6">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div class="space-y-1">
+          <p class="text-xs uppercase tracking-[0.12em] text-primary font-semibold">Featured</p>
+          <h2 class="text-2xl font-heading text-neutral">Most requested treatments</h2>
+          <p class="text-sm text-gray-700">High-impact services patients ask for most, delivered with gentle, modern care.</p>
+        </div>
+        <Button href="/services" variant="outline" class="self-start md:self-center">View all services</Button>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        {services
+          .filter((item) => item.data.featured)
+          .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+          .map((service) => (
+            <a
+              href={`/services/${service.slug}`}
+              class="group flex items-start gap-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
+              key={service.id}
+            >
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <span class="text-lg">🦷</span>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg font-heading text-neutral group-hover:text-primary">{service.data.title}</h3>
+                <p class="text-sm text-gray-700">{service.data.shortDescription}</p>
+                <span class="inline-flex items-center gap-1 text-sm font-semibold text-primary">Learn more →</span>
+              </div>
+            </a>
+          ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="space-y-10">
+      {Object.entries(grouped).map(([category, items]) => (
+        <div class="space-y-4" key={category}>
+          <div class="flex items-baseline justify-between gap-3">
+            <h2 class="text-2xl font-heading text-neutral capitalize">{category}</h2>
+            <span class="text-xs uppercase tracking-[0.12em] text-gray-500">{items.length} services</span>
+          </div>
+          <div class="grid gap-6 md:grid-cols-3">
+            {items
+              .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+              .map((service) => (
+                <a
+                  href={`/services/${service.slug}`}
+                  class="group rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
+                  key={service.id}
+                >
+                  <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <span class="text-base">🪥</span>
+                  </div>
+                  <h3 class="text-xl font-heading text-neutral group-hover:text-primary">{service.data.title}</h3>
+                  <p class="text-sm text-gray-700 mb-3">{service.data.shortDescription}</p>
+                  <div class="flex items-center justify-between text-xs text-gray-600">
+                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-700">
+                      {service.data.category}
+                    </span>
+                    <span class="text-sm font-semibold text-primary">Learn more →</span>
+                  </div>
+                </a>
+              ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+</BaseLayout>
