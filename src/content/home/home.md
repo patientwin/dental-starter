@@ -1,6 +1,6 @@
 ---
 title: home
-heroHeadline: Nick M Dental Studio
+heroHeadline: Bright Side Dental Studio
 heroSubheadline: Comfort-focused family and cosmetic dentistry in your neighborhood.
 heroBadge: Comfort-focused care
 heroPrimaryCtaLabel: Request Appointment
