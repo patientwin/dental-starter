@@ -6,6 +6,8 @@ excerpt: "Simple, dentist-approved steps to prevent cavities, protect your gums,
 tags:
   - oral-health
   - preventive-care
+featuredImage: ""
+videoUrl: ""
 ---
 
 Keep your smile strong with dentist-approved basics—brushing, flossing, fluoride, and when to schedule a checkup.

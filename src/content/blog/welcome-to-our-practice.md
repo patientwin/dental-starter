@@ -6,6 +6,8 @@ excerpt: "Get to know our team, our philosophy, and what to expect at your first
 tags:
   - practice-news
   - patient-experience
+featuredImage: ""
+videoUrl: ""
 ---
 
 We opened BrightSide Dental Studio to make dentistry feel refreshing and easy. From online scheduling to same-day crowns, we designed every detail with busy families in mind.

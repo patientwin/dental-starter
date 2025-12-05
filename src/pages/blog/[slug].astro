@@ -15,7 +15,7 @@ const post = await getEntryBySlug("blog", slug);
 if (!post) throw new Error(`Blog post not found for slug: ${slug}`);
 
 const { Content } = await post.render();
-const { title, date, excerpt = "", tags } = post.data;
+const { title, date, excerpt = "", tags, featuredImage, videoUrl } = post.data;
 
 const publishedLabel =
   date &&
@@ -24,6 +24,7 @@ const publishedLabel =
     month: "long",
     day: "numeric",
   });
+const datetimeValue = date?.toISOString?.() ?? date;
 ---
 
 <BaseLayout title={title} description={excerpt}>
@@ -39,7 +40,7 @@ const publishedLabel =
 
             <div class="flex flex-wrap items-center gap-3 text-sm text-ink-500">
               {publishedLabel && (
-                <time datetime={date}>{publishedLabel}</time>
+                <time datetime={datetimeValue}>{publishedLabel}</time>
               )}
 
               {tags && tags.length > 0 && (
@@ -58,9 +59,35 @@ const publishedLabel =
             )}
           </header>
 
+          {featuredImage && (
+            <div class="mb-8 overflow-hidden rounded-2xl">
+              <img
+                src={featuredImage}
+                alt={title}
+                loading="lazy"
+                class="h-auto w-full object-cover"
+              />
+            </div>
+          )}
+
           <div class="prose prose-slate max-w-none prose-a:text-brand-600 prose-headings:text-ink-900 prose-li:marker:text-ink-400 prose-strong:text-ink-900">
             <Content />
           </div>
+
+          {videoUrl && (
+            <div class="mt-10">
+              <div class="aspect-video overflow-hidden rounded-2xl bg-black">
+                <iframe
+                  src={videoUrl}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  class="h-full w-full border-0"
+                  title={`Video for ${title}`}
+                />
+              </div>
+            </div>
+          )}
 
           <div class="mt-10 rounded-2xl bg-halo-mint/40 px-6 py-5 text-sm text-ink-800 md:flex md:items-center md:justify-between">
             <p class="font-medium">
@@ -98,7 +125,7 @@ const publishedLabel =
                 <div class="flex justify-between gap-3">
                   <dt class="text-ink-500">Published</dt>
                   <dd>
-                    <time datetime={date}>{publishedLabel}</time>
+                    <time datetime={datetimeValue}>{publishedLabel}</time>
                   </dd>
                 </div>
               )}

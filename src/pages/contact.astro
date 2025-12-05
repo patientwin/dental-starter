@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection, getEntryBySlug } from 'astro:content';
 
 const siteSettings = await getCollection('siteSettings');
 const site = siteSettings[0];
@@ -11,25 +11,31 @@ if (!site) {
   throw new Error('Missing siteSettings entry. Add src/content/siteSettings/practice.json.');
 }
 
-const contactPage = await getEntry('pages', 'contact');
+const contactPage = await getEntryBySlug('pages', 'contact');
 
 if (!contactPage) {
   throw new Error('Missing contact page content in src/content/pages/contact.md.');
 }
 
-const { data: page } = contactPage;
+const page = contactPage.data;
+const { heroEyebrow, heroTitle, heroSubheadline, intro } = page;
+const heroHeading = heroTitle ?? page.title ?? 'Contact';
+const description = heroSubheadline ?? intro ?? page.title;
 const settings = site.data;
 const phoneHref = `tel:${settings.phone.replace(/[^0-9+]/g, '')}`;
 const fullAddress = [settings.addressLine1, settings.addressLine2].filter(Boolean).join(', ');
 ---
 
-<BaseLayout title={page.title ?? 'Contact'} description={page.intro}>
+<BaseLayout title={page.title ?? 'Contact'} description={description}>
   <main class="bg-surface-soft">
     <Section>
       <div class="space-y-4">
-        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">Contact</p>
-        <h1 class="text-3xl font-semibold text-ink-900 md:text-4xl">{page.title}</h1>
-        {page.intro && <p class="max-w-2xl text-base text-ink-600">{page.intro}</p>}
+        {heroEyebrow && (
+          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{heroEyebrow}</p>
+        )}
+        <h1 class="text-3xl font-semibold text-ink-900 md:text-4xl">{heroHeading}</h1>
+        {heroSubheadline && <p class="max-w-2xl text-base text-ink-600">{heroSubheadline}</p>}
+        {intro && <p class="max-w-2xl text-base text-ink-600">{intro}</p>}
       </div>
 
       <div class="mt-10 grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start">

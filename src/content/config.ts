@@ -51,6 +51,9 @@ const pages = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    heroEyebrow: z.string().optional(),
+    heroTitle: z.string(),
+    heroSubheadline: z.string().optional(),
     layoutStyle: z.enum(["default", "narrow"]).default("default"),
     intro: z.string().optional(),
   }),
@@ -91,6 +94,8 @@ const blog = defineCollection({
     date: z.date(),
     excerpt: z.string(),
     tags: z.array(z.string()).optional(),
+    featuredImage: z.string().optional(),
+    videoUrl: z.string().optional(),
   }),
 });
 

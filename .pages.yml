@@ -142,22 +142,52 @@ content:
       sort: title
     fields:
       - name: title
-        label: Title
+        label: Internal title
         type: string
+        hint: "For editors only. Used in the CMS list and SEO, not shown directly on the page."
+
       - name: slug
         label: Slug
         type: string
-      - name: layout
+        hint: "URL path segment, e.g. 'about' or 'contact'."
+
+      - name: heroEyebrow
+        label: Hero eyebrow
+        type: string
+        required: false
+        hint: "Small label above the main title, e.g. 'About' or 'Contact'. Leave blank to hide."
+
+      - name: heroTitle
+        label: Hero title
+        type: string
+        hint: "Big H1 heading at the top of the page."
+
+      - name: heroSubheadline
+        label: Hero subheadline
+        type: text
+        required: false
+        hint: "Short paragraph under the hero title."
+
+      - name: layoutStyle
         label: Layout
         type: string
         options:
           - default
           - narrow
         default: default
+        hint: "Default is a wide layout. Narrow centers the content for more reading-focused pages."
+
       - name: intro
-        label: Intro
+        label: Intro (optional)
         type: text
         required: false
+        hint: "Optional intro copy shown near the top of the page body."
+
+      - name: body
+        label: Main content
+        type: markdown
+        required: false
+        hint: "Main page content. You can use headings, lists, and links."
 
   # ─────────────────────────────────────────────
   # Team / doctors
@@ -271,17 +301,47 @@ content:
       - name: title
         label: Title
         type: string
+        hint: "Headline of the article."
+
       - name: slug
         label: Slug
         type: string
+        hint: "URL path segment, e.g. 'dental-implants-sampletown-guide'."
+
       - name: date
         label: Date
         type: datetime
+        hint: "Publish date of the article."
+
       - name: excerpt
         label: Excerpt
         type: text
+        hint: "Short summary shown on the blog list and in search results."
+
       - name: tags
         label: Tags
         type: string
         list: true
         required: false
+        field:
+          name: tag
+          label: Tag
+          type: string
+        hint: "Optional tags, e.g. 'dental-implants', 'tooth-replacement'."
+
+      - name: featuredImage
+        label: Featured image
+        type: image
+        required: false
+        hint: "Optional header image shown at the top of the article."
+
+      - name: videoUrl
+        label: Video URL (optional)
+        type: string
+        required: false
+        hint: "Optional YouTube or Vimeo embed URL. Example: https://www.youtube.com/embed/VIDEO_ID"
+
+      - name: body
+        label: Article body
+        type: markdown
+        hint: "Main article content. You can use headings, lists, links, and images."

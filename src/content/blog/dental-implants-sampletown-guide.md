@@ -7,6 +7,8 @@ tags:
   - dental-implants
   - tooth-replacement
   - sampletown
+featuredImage: ""
+videoUrl: ""
 ---
 
 Thinking about dental implants? Here’s what to expect, from candidacy to healing timelines and financing options.

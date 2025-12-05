@@ -9,24 +9,35 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 const team = await getCollection('team');
 const leadDoctor = team.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))[0];
 const aboutEntry = await getEntryBySlug('pages', 'about');
-const { Content } = aboutEntry ? await aboutEntry.render() : { Content: null };
-const about = aboutEntry?.data;
+
+if (!aboutEntry) {
+  throw new Error('About page content not found');
+}
+
+const { Content } = await aboutEntry.render();
+const { title, heroEyebrow, heroTitle, heroSubheadline, intro } = aboutEntry.data;
+const pageTitle = heroTitle ?? title;
+const description = heroSubheadline ?? intro ?? title;
 ---
 
-<BaseLayout
-  title="About BrightSide Dental Studio | Dentist in Sampletown, MI"
-  description="Learn about BrightSide Dental Studio in Sampletown, Michigan—comfort-focused family and cosmetic dentistry with modern technology and a gentle team."
->
+<BaseLayout title={title} description={description}>
   <main>
     <section class="bg-surface-soft">
       <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <div class="space-y-4">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
-          <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">About BrightSide Dental Studio</p>
-          <h1 class="font-heading text-4xl tracking-tight text-ink-900 md:text-5xl">{about?.title}</h1>
-          {about?.intro && (
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || 'About' }]} />
+          {heroEyebrow && (
+            <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">{heroEyebrow}</p>
+          )}
+          <h1 class="font-heading text-4xl tracking-tight text-ink-900 md:text-5xl">{pageTitle}</h1>
+          {heroSubheadline && (
             <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">
-              {about.intro}
+              {heroSubheadline}
+            </p>
+          )}
+          {intro && (
+            <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">
+              {intro}
             </p>
           )}
           {Content && (
