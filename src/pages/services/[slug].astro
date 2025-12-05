@@ -1,33 +1,77 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/ui/Button.astro';
-import { getCollection } from 'astro:content';
+import Section from '../../components/ui/Section.astro';
+import { getCollection, getEntryBySlug, getEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
-  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+  return services.map((service) => ({ params: { slug: service.slug } }));
 }
 
-const { service } = Astro.props;
+const { slug } = Astro.params;
+if (!slug) {
+  throw new Error('Missing service slug');
+}
+
+const service = await getEntryBySlug('services', slug);
+const siteSettings = await getEntry('siteSettings', 'practice');
+
+if (!service) {
+  throw new Error(`Service not found for slug: ${slug}`);
+}
+
 const { Content } = await service.render();
+const { name, summary, seoTitle, seoDescription, heroImage, category, tagline } = service.data;
+const pageTitle =
+  seoTitle ?? `${name} in ${siteSettings?.data?.city ?? 'your area'} | ${siteSettings?.data?.practiceName ?? 'Our practice'}`;
+const pageDescription = seoDescription ?? summary ?? '';
 ---
 
-<BaseLayout title={`${service.data.seoTitle}`} description={service.data.seoDescription}>
-  <section class="bg-surface">
-    <div class="mx-auto max-w-5xl px-4 py-12 md:py-16 space-y-4">
-      <p class="text-sm uppercase tracking-wide text-primary font-semibold">{service.data.category}</p>
-      <h1 class="text-4xl font-heading text-neutral">{service.data.title}</h1>
-      <p class="text-lg text-gray-700">{service.data.heroTagline}</p>
-      <div class="flex gap-3">
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Section>
+    <div class="space-y-4">
+      <nav aria-label="Breadcrumb" class="text-sm text-ink-500">
+        <ol class="flex flex-wrap items-center gap-1">
+          <li>
+            <a href="/" class="hover:text-ink-700">Home</a>
+            <span class="mx-1 text-ink-300">/</span>
+          </li>
+          <li>
+            <a href="/services" class="hover:text-ink-700">Services</a>
+            <span class="mx-1 text-ink-300">/</span>
+          </li>
+          <li aria-current="page" class="font-medium text-ink-700">
+            {name}
+          </li>
+        </ol>
+      </nav>
+      <p class="text-sm uppercase tracking-wide text-primary font-semibold">{category ?? 'Service'}</p>
+      <h1 class="text-4xl font-heading text-neutral">{name}</h1>
+      {tagline && <p class="text-lg text-gray-700">{tagline}</p>}
+      {summary && <p class="text-base text-gray-700 max-w-3xl">{summary}</p>}
+      <div class="flex gap-3 flex-wrap">
         <Button href="/new-patients" variant="primary">Request appointment</Button>
         <Button href="/contact" variant="outline">Ask a question</Button>
       </div>
+      {heroImage && (
+        <img
+          src={heroImage}
+          alt={name}
+          loading="lazy"
+          decoding="async"
+          class="mt-6 w-full rounded-3xl object-cover md:max-h-80"
+        />
+      )}
     </div>
-  </section>
-  <section class="bg-white">
-    <div class="mx-auto max-w-3xl px-4 py-12 md:py-16 prose">
-      <Content />
-      <div class="mt-8 grid gap-4 md:grid-cols-2">
+  </Section>
+
+  <Section>
+    <div class="mx-auto max-w-3xl space-y-6">
+      <div class="prose prose-slate max-w-none prose-a:text-brand-600">
+        <Content />
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
         <div class="rounded-2xl bg-background p-4 ring-1 ring-gray-100">
           <p class="text-sm font-semibold text-neutral mb-2">Who it helps</p>
           <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
@@ -45,10 +89,10 @@ const { Content } = await service.render();
           </ul>
         </div>
       </div>
-      <div class="mt-6 flex flex-wrap gap-3">
+      <div class="mt-4 flex flex-wrap gap-3">
         <Button href="/new-patients" variant="primary">Request appointment</Button>
         <Button href="/contact" variant="outline">Call our office</Button>
       </div>
     </div>
-  </section>
+  </Section>
 </BaseLayout>

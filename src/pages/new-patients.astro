@@ -3,131 +3,140 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import AppointmentRequestForm from '../components/forms/AppointmentRequestForm.astro';
 import Button from '../components/ui/Button.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import { getEntryBySlug } from 'astro:content';
+
+const page = await getEntryBySlug('pages', 'new-patients');
+
+if (!page) {
+  throw new Error('Missing new patients page content in src/content/pages/new-patients.md.');
+}
+
+const { Content } = await page.render();
+const { heroEyebrow, heroTitle, heroSubheadline, intro, seoTitle, seoDescription, heroImage } = page.data;
+const pageTitle = seoTitle ?? heroTitle ?? page.data.title;
+const pageDescription = seoDescription ?? heroSubheadline ?? intro ?? '';
 ---
 
-<BaseLayout
-  title="New Patients | BrightSide Dental Studio in Sampletown, MI"
-  description="Plan your first visit to BrightSide Dental Studio in Sampletown. What to expect, forms, insurance and financing, and how to request an appointment."
->
-  <Section>
-    <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-start">
-      <div class="space-y-3">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">New patients</p>
-        <h1 class="text-3xl md:text-4xl font-heading text-neutral">Your first visit, made simple</h1>
-        <p class="text-base text-gray-700 max-w-3xl">
-          We keep new patient visits calm, clear, and efficient. Expect a friendly welcome, digital imaging, and a dentist-led exam with options and costs explained before we begin. Serving families and professionals across Sampletown.
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <Button href="/services" variant="outline">Explore services</Button>
-          <Button href="/contact" variant="outline">Call our office</Button>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main>
+    <section class="bg-surface-soft">
+      <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <div class="grid gap-8 md:grid-cols-[1.05fr_0.95fr] md:items-center">
+          <div class="space-y-4">
+            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || page.data.title }]} />
+            {heroEyebrow && (
+              <p class="text-sm uppercase tracking-wide text-primary font-semibold">{heroEyebrow}</p>
+            )}
+            <h1 class="text-3xl md:text-4xl font-heading text-neutral">{heroTitle ?? page.data.title}</h1>
+            {heroSubheadline && (
+              <p class="text-base text-gray-700 max-w-3xl">
+                {heroSubheadline}
+              </p>
+            )}
+            {intro && (
+              <p class="text-base text-gray-700 max-w-3xl">
+                {intro}
+              </p>
+            )}
+            <div class="flex flex-wrap gap-3">
+              <Button href="/services" variant="outline">Explore services</Button>
+              <Button href="/contact" variant="outline">Call our office</Button>
+            </div>
+          </div>
+          {heroImage && (
+            <div class="overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-surface-border">
+              <img src={heroImage} alt={heroTitle ?? page.data.title} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+          )}
         </div>
       </div>
-      <div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100">
-        <h2 class="text-xl font-heading text-neutral mb-3">Request an appointment</h2>
-        <AppointmentRequestForm />
-      </div>
-    </div>
-  </Section>
+    </section>
 
-  <Section>
-    <div class="grid gap-6 md:grid-cols-3">
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">What to expect</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-          <li>Digital X-rays and a gentle, thorough exam</li>
-          <li>Photos or scans to show what we see</li>
-          <li>Clear options, timelines, and costs</li>
-        </ul>
-      </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Comfort-first visit</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-          <li>Comfort menu, blankets, and headphones</li>
-          <li>Gentle anesthesia when needed</li>
-          <li>Calm, step-by-step communication</li>
-        </ul>
-      </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">After your visit</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-          <li>Same-day estimates and financing guidance</li>
-          <li>Follow-up texts you can reply to</li>
-          <li>Clear next steps to keep you on track</li>
-        </ul>
-      </div>
-    </div>
-  </Section>
+    <Section>
+      <article class="prose prose-slate max-w-4xl text-sm md:text-base prose-a:text-brand-600">
+        <Content />
+      </article>
+    </Section>
 
-  <Section>
-    <div class="grid gap-10 md:grid-cols-2">
-      <div class="space-y-4">
-        <h2 class="text-2xl font-heading text-neutral">What to bring</h2>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
-          <li>Photo ID and insurance card (if applicable)</li>
-          <li>List of medications or health conditions</li>
-          <li>Questions or smile goals you want to discuss</li>
-        </ul>
-        <div class="space-y-2">
-          <a href="#" class="text-primary font-semibold">Download new patient forms (PDF)</a>
-          <a href="#" class="text-primary font-semibold">Membership plan portal</a>
+    <Section>
+      <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-start">
+        <div class="space-y-3">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">New patients</p>
+          <h2 class="text-2xl md:text-3xl font-heading text-neutral">Your first visit, made simple</h2>
+          <p class="text-base text-gray-700 max-w-3xl">
+            We keep new patient visits calm, clear, and efficient. Expect a friendly welcome, digital imaging, and a dentist-led exam with options and costs explained before we begin.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <Button href="/services" variant="outline">Explore services</Button>
+            <Button href="/contact" variant="outline">Call our office</Button>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100">
+          <h2 class="text-xl font-heading text-neutral mb-3">Request an appointment</h2>
+          <AppointmentRequestForm />
         </div>
       </div>
-      <div class="rounded-3xl bg-gradient-to-br from-primary/8 via-white to-secondary/10 p-6 shadow-card ring-1 ring-primary/10 space-y-3">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Insurance & payment</p>
-        <h3 class="text-xl font-heading text-neutral">We make finances clear</h3>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
-          <li>We accept most major PPO plans and verify benefits for you.</li>
-          <li>Transparent estimates before treatment starts.</li>
-          <li>Membership plan available for families without insurance.</li>
-          <li>Financing guidance for larger treatments.</li>
-        </ul>
-        <div class="flex flex-wrap gap-3 pt-2">
-          <Button href="/financing" variant="primary">See financing</Button>
-          <Button href="/contact" variant="outline">Ask a question</Button>
-        </div>
-      </div>
-    </div>
-  </Section>
+    </Section>
 
-  <Section>
-    <div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 space-y-4">
-      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p class="text-sm uppercase tracking-wide text-primary font-semibold">FAQs</p>
-          <h2 class="text-2xl font-heading text-neutral">Common questions from new patients</h2>
+    <Section>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">What to expect</p>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+            <li>Digital X-rays and a gentle, thorough exam</li>
+            <li>Photos or scans to show what we see</li>
+            <li>Clear options, timelines, and costs</li>
+          </ul>
         </div>
-        <Button href="/contact" variant="outline">More questions?</Button>
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Comfort-first visit</p>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+            <li>Comfort menu, blankets, and headphones</li>
+            <li>Gentle anesthesia when needed</li>
+            <li>Calm, step-by-step communication</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">After your visit</p>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+            <li>Same-day estimates and financing guidance</li>
+            <li>Follow-up texts you can reply to</li>
+            <li>Clear next steps to keep you on track</li>
+          </ul>
+        </div>
       </div>
-      <div class="space-y-4">
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            Do you take my insurance?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">We work with most major PPO plans and will verify benefits before treatment. Share your plan details when scheduling so we can provide clear estimates.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            What if I’m nervous about dental visits?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">We’re comfort-focused. Expect a calm pace, headphones, blankets, and gentle anesthesia when appropriate. Tell us your concerns—we’ll tailor the visit.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            How long is the first appointment?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">Plan about 60–90 minutes for a comprehensive exam, digital X-rays, photos, and a consultation with the doctor.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            Do you offer financing?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">Yes. We provide transparent estimates, help you maximize benefits, and offer financing guidance for larger treatments.</p>
-        </details>
+    </Section>
+
+    <Section>
+      <div class="grid gap-10 md:grid-cols-2">
+        <div class="space-y-4">
+          <h2 class="text-2xl font-heading text-neutral">What to bring</h2>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
+            <li>Photo ID and insurance card (if applicable)</li>
+            <li>List of medications or health conditions</li>
+            <li>Questions or smile goals you want to discuss</li>
+          </ul>
+          <div class="space-y-2">
+            <a href="#" class="text-primary font-semibold">Download new patient forms (PDF)</a>
+            <a href="#" class="text-primary font-semibold">Membership plan portal</a>
+          </div>
+        </div>
+        <div class="rounded-3xl bg-gradient-to-br from-primary/8 via-white to-secondary/10 p-6 shadow-card ring-1 ring-primary/10 space-y-3">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Insurance & payment</p>
+          <h3 class="text-xl font-heading text-neutral">We make finances clear</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
+            <li>We accept most major PPO plans and verify benefits for you.</li>
+            <li>Transparent estimates before treatment starts.</li>
+            <li>Membership plan available for families without insurance.</li>
+            <li>Financing guidance for larger treatments.</li>
+          </ul>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <Button href="/financing" variant="primary">See financing</Button>
+            <Button href="/contact" variant="outline">Ask a question</Button>
+          </div>
+        </div>
       </div>
-    </div>
-  </Section>
+    </Section>
+  </main>
 </BaseLayout>

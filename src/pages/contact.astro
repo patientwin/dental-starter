@@ -17,26 +17,43 @@ if (!contactPage) {
   throw new Error('Missing contact page content in src/content/pages/contact.md.');
 }
 
+const { Content } = await contactPage.render();
 const page = contactPage.data;
-const { heroEyebrow, heroTitle, heroSubheadline, intro } = page;
+const { heroEyebrow, heroTitle, heroSubheadline, intro, seoTitle, seoDescription, heroImage } = page;
 const heroHeading = heroTitle ?? page.title ?? 'Contact';
 const description = heroSubheadline ?? intro ?? page.title;
+const pageTitle = seoTitle ?? heroHeading ?? 'Contact';
+const pageDescription = seoDescription ?? description;
 const settings = site.data;
 const phoneHref = `tel:${settings.phone.replace(/[^0-9+]/g, '')}`;
 const fullAddress = [settings.addressLine1, settings.addressLine2].filter(Boolean).join(', ');
 ---
 
-<BaseLayout title={page.title ?? 'Contact'} description={description}>
+<BaseLayout title={pageTitle} description={pageDescription}>
   <main class="bg-surface-soft">
     <Section>
-      <div class="space-y-4">
+      <div class="grid gap-8 md:grid-cols-[1.05fr_0.95fr] md:items-start">
+        <div class="space-y-4">
         {heroEyebrow && (
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-brand-500">{heroEyebrow}</p>
         )}
         <h1 class="text-3xl font-semibold text-ink-900 md:text-4xl">{heroHeading}</h1>
         {heroSubheadline && <p class="max-w-2xl text-base text-ink-600">{heroSubheadline}</p>}
         {intro && <p class="max-w-2xl text-base text-ink-600">{intro}</p>}
+        </div>
+
+        {heroImage && (
+          <div class="overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-surface-border">
+            <img src={heroImage} alt={heroHeading} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+          </div>
+        )}
       </div>
+
+      {Content && (
+        <div class="mt-6 prose prose-slate max-w-3xl prose-a:text-brand-600">
+          <Content />
+        </div>
+      )}
 
       <div class="mt-10 grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-start">
         <div class="space-y-6 text-sm leading-relaxed text-ink-700">

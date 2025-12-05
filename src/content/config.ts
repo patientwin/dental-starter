@@ -56,6 +56,10 @@ const pages = defineCollection({
     heroSubheadline: z.string().optional(),
     layoutStyle: z.enum(["default", "narrow"]).default("default"),
     intro: z.string().optional(),
+    body: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    heroImage: z.string().optional(),
   }),
 });
 
@@ -84,6 +88,10 @@ const services = defineCollection({
     summary: z.string(),
     order: z.number().default(0),
     featured: z.boolean().default(false),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    heroImage: z.string().optional(),
+    cardImage: z.string().optional(),
   }),
 });
 

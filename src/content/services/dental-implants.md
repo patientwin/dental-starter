@@ -6,6 +6,10 @@ tagline: "Lasting tooth replacement that looks and feels natural."
 summary: "Regain your confident smile with custom implant restorations."
 featured: true
 order: 1
+seoTitle: ""
+seoDescription: ""
+heroImage: ""
+cardImage: ""
 ---
 
 Dental implants are today’s gold standard for replacing missing teeth. We use 3D imaging and guided surgery to plan precise placements that heal comfortably and support natural-looking restorations.

@@ -2,115 +2,110 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import { getEntryBySlug } from 'astro:content';
+
+const page = await getEntryBySlug('pages', 'financing');
+
+if (!page) {
+  throw new Error('Missing financing page content in src/content/pages/financing.md.');
+}
+
+const { Content } = await page.render();
+const { heroEyebrow, heroTitle, heroSubheadline, intro, seoTitle, seoDescription, heroImage } = page.data;
+const pageTitle = seoTitle ?? heroTitle ?? page.data.title;
+const pageDescription = seoDescription ?? heroSubheadline ?? intro ?? '';
 ---
 
-<BaseLayout
-  title="Financing & Insurance | BrightSide Dental Studio in Sampletown, MI"
-  description="Learn about insurance, payment options, and financing at BrightSide Dental Studio. Transparent estimates, membership plans, and guidance for patients in Sampletown."
->
-  <Section>
-    <div class="space-y-3">
-      <p class="text-sm uppercase tracking-wide text-primary font-semibold">Financing & insurance</p>
-      <h1 class="text-3xl md:text-4xl font-heading text-neutral">Clear, flexible options for your care</h1>
-      <p class="text-base text-gray-700 max-w-4xl">
-        We verify benefits, share transparent estimates, and offer flexible payment options so you can plan confidently—whether you need preventive visits, cosmetic dentistry, or dental implants in Sampletown.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <Button href="/contact" variant="primary">Call our office</Button>
-        <Button href="/new-patients" variant="outline">Request appointment</Button>
-      </div>
-    </div>
-  </Section>
-
-  <Section>
-    <div class="grid gap-6 md:grid-cols-3">
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Insurance</p>
-        <h2 class="text-lg font-heading text-neutral">We help maximize your benefits</h2>
-        <p class="text-sm text-gray-700">We work with most major PPO plans. Share your insurance info when scheduling and we’ll verify coverage before your visit.</p>
-      </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Transparent estimates</p>
-        <h2 class="text-lg font-heading text-neutral">Know costs before treatment</h2>
-        <p class="text-sm text-gray-700">We provide clear estimates, explain options, and help you prioritize care based on your goals and budget.</p>
-      </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Guidance</p>
-        <h2 class="text-lg font-heading text-neutral">Friendly help with billing</h2>
-        <p class="text-sm text-gray-700">Ask us about benefits, EOBs, and payment timing—we’ll help simplify the process.</p>
-      </div>
-    </div>
-  </Section>
-
-  <Section>
-    <div class="grid gap-8 md:grid-cols-2">
-      <div class="rounded-3xl bg-gradient-to-br from-primary/8 via-white to-secondary/10 p-6 shadow-card ring-1 ring-primary/10 space-y-3">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Payment options</p>
-        <h2 class="text-2xl font-heading text-neutral">Flexible ways to pay</h2>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
-          <li>All major credit and debit cards</li>
-          <li>HSA/FSA cards</li>
-          <li>Financing available for larger treatments</li>
-          <li>Phased care plans to fit your budget</li>
-        </ul>
-        <div class="flex flex-wrap gap-3 pt-2">
-          <Button href="/new-patients" variant="primary">Request estimate</Button>
-          <Button href="/contact" variant="outline">Ask about coverage</Button>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main>
+    <section class="bg-surface-soft">
+      <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div class="space-y-4">
+            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || page.data.title }]} />
+            {heroEyebrow && (
+              <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">{heroEyebrow}</p>
+            )}
+            <h1 class="font-heading text-4xl tracking-tight text-ink-900 md:text-5xl">{heroTitle ?? page.data.title}</h1>
+            {heroSubheadline && (
+              <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">
+                {heroSubheadline}
+              </p>
+            )}
+            {intro && (
+              <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">
+                {intro}
+              </p>
+            )}
+            <div class="flex flex-wrap gap-3">
+              <Button href="/contact" variant="primary">Call our office</Button>
+              <Button href="/new-patients" variant="outline">Request appointment</Button>
+            </div>
+          </div>
+          {heroImage && (
+            <div class="overflow-hidden rounded-3xl bg-surface shadow-card-soft ring-1 ring-surface-border">
+              <img src={heroImage} alt={heroTitle ?? page.data.title} class="h-full w-full object-cover" loading="lazy" decoding="async" />
+            </div>
+          )}
         </div>
       </div>
-      <div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 space-y-3">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Membership plan</p>
-        <h2 class="text-2xl font-heading text-neutral">No insurance? We’ve got you</h2>
-        <p class="text-sm text-gray-700">Join our in-house membership for predictable preventive care and member savings on additional treatment.</p>
-        <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
-          <li>Includes cleanings, exams, and X-rays</li>
-          <li>Member discounts on restorative and cosmetic care</li>
-          <li>No deductibles, waiting periods, or yearly maximums</li>
-        </ul>
-        <Button href="/contact" variant="primary" class="mt-2">Ask about membership</Button>
-      </div>
-    </div>
-  </Section>
+    </section>
 
-  <Section>
-    <div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 space-y-4">
-      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p class="text-sm uppercase tracking-wide text-primary font-semibold">FAQs</p>
-          <h2 class="text-2xl font-heading text-neutral">Financing & insurance questions</h2>
+    <Section>
+      <article class="prose prose-slate max-w-none prose-a:text-brand-600 text-sm md:text-base">
+        <Content />
+      </article>
+    </Section>
+
+    <Section>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="space-y-2 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Insurance</p>
+          <h2 class="text-lg font-heading text-neutral">We help maximize your benefits</h2>
+          <p class="text-sm text-gray-700">We work with most major PPO plans. Share your insurance info when scheduling and we’ll verify coverage before your visit.</p>
         </div>
-        <Button href="/contact" variant="outline">More questions?</Button>
+        <div class="space-y-2 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Transparent estimates</p>
+          <h2 class="text-lg font-heading text-neutral">Know costs before treatment</h2>
+          <p class="text-sm text-gray-700">We provide clear estimates, explain options, and help you prioritize care based on your goals and budget.</p>
+        </div>
+        <div class="space-y-2 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Guidance</p>
+          <h2 class="text-lg font-heading text-neutral">Friendly help with billing</h2>
+          <p class="text-sm text-gray-700">Ask us about benefits, EOBs, and payment timing—we’ll help simplify the process.</p>
+        </div>
       </div>
-      <div class="space-y-4">
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            Do you take my insurance?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">We work with most major PPO plans. Share your information when booking and we’ll verify benefits before your visit.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            Can I see costs before treatment?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">Yes. We provide clear estimates and explain timelines, options, and any out-of-pocket costs before you decide.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            Do you offer payment plans?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">We offer financing guidance for larger treatments and can phase care to fit your budget.</p>
-        </details>
-        <details class="group rounded-xl border border-gray-100 bg-background px-4 py-3">
-          <summary class="flex cursor-pointer items-center justify-between text-sm font-semibold text-neutral">
-            What if I don’t have insurance?
-            <span class="text-gray-500 group-open:rotate-180 transition">▼</span>
-          </summary>
-          <p class="mt-2 text-sm text-gray-700">Our membership plan includes preventive care and member discounts on additional treatment—no deductibles or waiting periods.</p>
-        </details>
+    </Section>
+
+    <Section>
+      <div class="grid gap-8 md:grid-cols-2">
+        <div class="space-y-3 rounded-3xl bg-gradient-to-br from-primary/8 via-white to-secondary/10 p-6 shadow-card ring-1 ring-primary/10">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Payment options</p>
+          <h2 class="text-2xl font-heading text-neutral">Flexible ways to pay</h2>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
+            <li>All major credit and debit cards</li>
+            <li>HSA/FSA cards</li>
+            <li>Financing available for larger treatments</li>
+            <li>Phased care plans to fit your budget</li>
+          </ul>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <Button href="/new-patients" variant="primary">Request estimate</Button>
+            <Button href="/contact" variant="outline">Ask about coverage</Button>
+          </div>
+        </div>
+        <div class="space-y-3 rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Membership plan</p>
+          <h2 class="text-2xl font-heading text-neutral">No insurance? We’ve got you</h2>
+          <p class="text-sm text-gray-700">Join our in-house membership for predictable preventive care and member savings on additional treatment.</p>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-2">
+            <li>Includes cleanings, exams, and X-rays</li>
+            <li>Member discounts on restorative and cosmetic care</li>
+            <li>No deductibles, waiting periods, or yearly maximums</li>
+          </ul>
+          <Button href="/contact" variant="primary" class="mt-2">Ask about membership</Button>
+        </div>
       </div>
-    </div>
-  </Section>
+    </Section>
+  </main>
 </BaseLayout>

@@ -189,6 +189,21 @@ content:
         required: false
         hint: "Main page content. You can use headings, lists, and links."
 
+      - name: seoTitle
+        label: SEO title (optional)
+        type: string
+        required: false
+
+      - name: seoDescription
+        label: SEO description (optional)
+        type: text
+        required: false
+
+      - name: heroImage
+        label: Hero image (optional)
+        type: image
+        required: false
+
   # ─────────────────────────────────────────────
   # Team / doctors
   # ─────────────────────────────────────────────
@@ -282,6 +297,22 @@ content:
         label: Featured
         type: boolean
         default: false
+      - name: seoTitle
+        label: SEO title (optional)
+        type: string
+        required: false
+      - name: seoDescription
+        label: SEO description (optional)
+        type: text
+        required: false
+      - name: heroImage
+        label: Hero image (optional)
+        type: image
+        required: false
+      - name: cardImage
+        label: Card image (optional)
+        type: image
+        required: false
 
   # ─────────────────────────────────────────────
   # Blog posts

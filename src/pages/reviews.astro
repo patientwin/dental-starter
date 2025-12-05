@@ -3,75 +3,106 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ReviewGrid from '../components/dental/ReviewGrid.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
-import { getEntry } from 'astro:content';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import { getEntry, getEntryBySlug } from 'astro:content';
 
 const site = await getEntry('siteSettings', 'practice');
+const page = await getEntryBySlug('pages', 'reviews');
+
+if (!site) {
+  throw new Error('Missing site settings entry.');
+}
+
+if (!page) {
+  throw new Error('Missing reviews page content in src/content/pages/reviews.md.');
+}
+
+const { Content } = await page.render();
+const { heroEyebrow, heroTitle, heroSubheadline, intro, seoTitle, seoDescription, heroImage } = page.data;
+const pageTitle = seoTitle ?? heroTitle ?? page.data.title;
+const pageDescription = seoDescription ?? heroSubheadline ?? intro ?? '';
 const googleReviewUrl = site.data.socials.find((item) => item.label.toLowerCase().includes('google'))?.href ?? '#';
 ---
 
-<BaseLayout
-  title="Patient Reviews | BrightSide Dental Studio in Sampletown, MI"
-  description="See why patients choose BrightSide Dental Studio in Sampletown. Comfort-focused, modern dentistry with hundreds of 5-star reviews."
->
-  <Section>
-    <div class="space-y-3 text-center max-w-3xl mx-auto">
-      <p class="text-sm uppercase tracking-wide text-primary font-semibold">Patient reviews</p>
-      <h1 class="text-3xl md:text-4xl font-heading text-neutral">Comfort-focused, 5-star dentistry in Sampletown</h1>
-      <p class="text-base text-gray-700">
-        Patients choose BrightSide for gentle visits, clear communication, and modern results—from family checkups to cosmetic dentistry and dental implants in Sampletown.
-      </p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <Button href={googleReviewUrl} variant="primary">Read Google reviews</Button>
-        <Button href="/contact" variant="outline">Call our office</Button>
-      </div>
-    </div>
-  </Section>
-
-  <Section>
-    <div class="grid gap-6 md:grid-cols-[1.1fr_0.9fr] items-center rounded-3xl bg-gradient-to-br from-primary/10 via-white to-secondary/10 p-6 md:p-8 shadow-card ring-1 ring-primary/10">
-      <div class="space-y-3">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Video testimonial</p>
-        <h2 class="text-2xl font-heading text-neutral">“They explained everything and made me feel calm.”</h2>
-        <p class="text-sm text-gray-700">Hear how a BrightSide patient had a smooth experience with clear aligners and whitening—gentle care, clear pricing, and modern results.</p>
-        <div class="flex flex-wrap gap-3">
-          <Button href="/services/clear-aligners" variant="primary">Learn about aligners</Button>
-          <Button href="/new-patients" variant="outline">Request a visit</Button>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <main>
+    <section class="bg-surface-soft">
+      <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div class="space-y-4 text-center md:text-left">
+            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || page.data.title }]} />
+            {heroEyebrow && (
+              <p class="text-sm uppercase tracking-wide text-primary font-semibold">{heroEyebrow}</p>
+            )}
+            <h1 class="text-3xl md:text-4xl font-heading text-neutral">{heroTitle ?? page.data.title}</h1>
+            {heroSubheadline && <p class="text-base text-gray-700">{heroSubheadline}</p>}
+            {intro && <p class="text-base text-gray-700">{intro}</p>}
+            <div class="flex flex-wrap justify-center gap-3 md:justify-start">
+              <Button href={googleReviewUrl} variant="primary">Read Google reviews</Button>
+              <Button href="/contact" variant="outline">Call our office</Button>
+            </div>
+          </div>
+          {heroImage && (
+            <div class="overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-surface-border">
+              <img src={heroImage} alt={heroTitle ?? page.data.title} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+          )}
         </div>
       </div>
-      <div class="rounded-2xl bg-white p-3 shadow-card ring-1 ring-gray-100">
-        <div class="aspect-video w-full overflow-hidden rounded-xl bg-gray-100 flex items-center justify-center text-sm text-gray-500">
-          TODO: Embed video testimonial
+    </section>
+
+    <Section>
+      <article class="prose prose-slate max-w-4xl mx-auto prose-a:text-brand-600 text-sm md:text-base">
+        <Content />
+      </article>
+    </Section>
+
+    <Section>
+      <div class="grid gap-6 md:grid-cols-[1.1fr_0.9fr] items-center rounded-3xl bg-gradient-to-br from-primary/10 via-white to-secondary/10 p-6 md:p-8 shadow-card ring-1 ring-primary/10">
+        <div class="space-y-3">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Video testimonial</p>
+          <h2 class="text-2xl font-heading text-neutral">“They explained everything and made me feel calm.”</h2>
+          <p class="text-sm text-gray-700">Hear how a BrightSide patient had a smooth experience with clear aligners and whitening—gentle care, clear pricing, and modern results.</p>
+          <div class="flex flex-wrap gap-3">
+            <Button href="/services/clear-aligners" variant="primary">Learn about aligners</Button>
+            <Button href="/new-patients" variant="outline">Request a visit</Button>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-white p-3 shadow-card ring-1 ring-gray-100">
+          <div class="aspect-video w-full overflow-hidden rounded-xl bg-gray-100 flex items-center justify-center text-sm text-gray-500">
+            TODO: Embed video testimonial
+          </div>
         </div>
       </div>
-    </div>
-  </Section>
+    </Section>
 
-  <ReviewGrid />
+    <ReviewGrid />
 
-  <Section>
-    <div class="grid gap-6 md:grid-cols-3">
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Why patients love us</p>
-        <h3 class="text-lg font-heading text-neutral">Comfort-first care</h3>
-        <p class="text-sm text-gray-700">Gentle techniques, comfort menu, and calm communication so you can relax at every visit.</p>
+    <Section>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Why patients love us</p>
+          <h3 class="text-lg font-heading text-neutral">Comfort-first care</h3>
+          <p class="text-sm text-gray-700">Gentle techniques, comfort menu, and calm communication so you can relax at every visit.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Clarity & trust</p>
+          <h3 class="text-lg font-heading text-neutral">Transparent plans</h3>
+          <p class="text-sm text-gray-700">Clear options, timelines, and costs before treatment—no surprises.</p>
+        </div>
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
+          <p class="text-sm uppercase tracking-wide text-primary font-semibold">Modern results</p>
+          <h3 class="text-lg font-heading text-neutral">Tech-forward dentistry</h3>
+          <p class="text-sm text-gray-700">Digital imaging, clear aligners, implants, and cosmetic options tailored to your goals.</p>
+        </div>
       </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Clarity & trust</p>
-        <h3 class="text-lg font-heading text-neutral">Transparent plans</h3>
-        <p class="text-sm text-gray-700">Clear options, timelines, and costs before treatment—no surprises.</p>
-      </div>
-      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 space-y-2">
-        <p class="text-sm uppercase tracking-wide text-primary font-semibold">Modern results</p>
-        <h3 class="text-lg font-heading text-neutral">Tech-forward dentistry</h3>
-        <p class="text-sm text-gray-700">Digital imaging, clear aligners, implants, and cosmetic options tailored to your goals.</p>
-      </div>
-    </div>
-  </Section>
+    </Section>
 
-  <Section>
-    <div class="text-center space-y-3">
-      <p class="text-lg font-heading text-neutral">See more patient stories</p>
-      <a href={googleReviewUrl} class="text-primary font-semibold">View Google reviews →</a>
-    </div>
-  </Section>
+    <Section>
+      <div class="text-center space-y-3">
+        <p class="text-lg font-heading text-neutral">See more patient stories</p>
+        <a href={googleReviewUrl} class="text-primary font-semibold">View Google reviews →</a>
+      </div>
+    </Section>
+  </main>
 </BaseLayout>

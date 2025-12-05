@@ -196,6 +196,34 @@ declare module 'astro:content' {
   collection: "pages";
   data: InferEntrySchema<"pages">
 } & { render(): Render[".md"] };
+"financing.md": {
+	id: "financing.md";
+  slug: "financing";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
+"new-patients.md": {
+	id: "new-patients.md";
+  slug: "new-patients";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
+"reviews.md": {
+	id: "reviews.md";
+  slug: "reviews";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
+"services.md": {
+	id: "services.md";
+  slug: "services";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
 };
 "services": {
 "clear-aligners.md": {

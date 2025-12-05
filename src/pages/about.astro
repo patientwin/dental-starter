@@ -15,21 +15,22 @@ if (!aboutEntry) {
 }
 
 const { Content } = await aboutEntry.render();
-const { title, heroEyebrow, heroTitle, heroSubheadline, intro } = aboutEntry.data;
-const pageTitle = heroTitle ?? title;
-const description = heroSubheadline ?? intro ?? title;
+const { title, heroEyebrow, heroTitle, heroSubheadline, intro, seoTitle, seoDescription, heroImage } = aboutEntry.data;
+const pageTitle = seoTitle ?? heroTitle ?? title;
+const description = seoDescription ?? heroSubheadline ?? intro ?? title;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={pageTitle} description={description}>
   <main>
     <section class="bg-surface-soft">
       <div class="mx-auto max-w-6xl px-4 py-16 md:py-20">
-        <div class="space-y-4">
-          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || 'About' }]} />
-          {heroEyebrow && (
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">{heroEyebrow}</p>
-          )}
-          <h1 class="font-heading text-4xl tracking-tight text-ink-900 md:text-5xl">{pageTitle}</h1>
+        <div class="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div class="space-y-4">
+            <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: heroEyebrow || 'About' }]} />
+            {heroEyebrow && (
+              <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">{heroEyebrow}</p>
+            )}
+            <h1 class="font-heading text-4xl tracking-tight text-ink-900 md:text-5xl">{pageTitle}</h1>
           {heroSubheadline && (
             <p class="max-w-3xl text-sm leading-relaxed text-ink-600 md:text-base">
               {heroSubheadline}
@@ -50,6 +51,11 @@ const description = heroSubheadline ?? intro ?? title;
             <Button href="/team" variant="outline">Meet the team</Button>
           </div>
         </div>
+        {heroImage && (
+          <div class="overflow-hidden rounded-3xl bg-surface shadow-card-soft ring-1 ring-surface-border">
+            <img src={heroImage} alt={heroTitle ?? title} class="h-full w-full object-cover" loading="lazy" decoding="async" />
+          </div>
+        )}
       </div>
     </section>
 

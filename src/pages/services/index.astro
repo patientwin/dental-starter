@@ -2,29 +2,63 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/ui/Section.astro';
 import Button from '../../components/ui/Button.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntryBySlug, getEntry } from 'astro:content';
 
+const servicesPage = await getEntryBySlug('pages', 'services');
+const siteSettings = await getEntry('siteSettings', 'practice');
 const services = await getCollection('services');
+
 const grouped = services.reduce<Record<string, typeof services>>((acc, item) => {
   const key = item.data.category ?? 'general';
   if (!acc[key]) acc[key] = [];
   acc[key].push(item);
   return acc;
 }, {});
+
+const heroData = servicesPage?.data;
+const pageTitle = heroData?.seoTitle ?? `Dental services in ${siteSettings?.data?.city ?? 'your area'}`;
+const pageDescription = heroData?.seoDescription ?? heroData?.intro ?? 'Explore family, cosmetic, and implant dentistry services.';
+const heroTitle = heroData?.heroTitle ?? heroData?.title ?? 'Services';
+const heroSubheadline = heroData?.heroSubheadline ?? 'From routine checkups to dental implants and clear aligners, we tailor care to your goals.';
+const heroEyebrow = heroData?.heroEyebrow ?? 'Services';
+const heroImage = heroData?.heroImage;
 ---
 
-<BaseLayout title="Dental Services | BrightSide Dental Studio in Sampletown, MI" description="Family, cosmetic, and implant dentistry in Sampletown, Michigan. Explore our services and plan your next visit.">
+<BaseLayout title={pageTitle} description={pageDescription}>
   <Section>
     <div class="space-y-4">
-      <p class="text-sm uppercase tracking-wide text-primary font-semibold">Dental services</p>
-      <h1 class="text-3xl md:text-4xl font-heading text-neutral">Comfort-focused family and cosmetic dentistry in Sampletown</h1>
-      <p class="text-base text-gray-700 max-w-4xl">
-        From routine checkups to dental implants and clear aligners, we tailor care to your goals, budget, and comfort level. Explore our most-requested services and plan your visit.
-      </p>
+      <nav aria-label="Breadcrumb" class="mb-2 text-sm text-ink-500">
+        <ol class="flex flex-wrap items-center gap-1">
+          <li>
+            <a href="/" class="hover:text-ink-700">Home</a>
+            <span class="mx-1 text-ink-300">/</span>
+          </li>
+          <li aria-current="page" class="font-medium text-ink-700">
+            Services
+          </li>
+        </ol>
+      </nav>
+      {heroEyebrow && <p class="text-sm uppercase tracking-wide text-primary font-semibold">{heroEyebrow}</p>}
+      <h1 class="text-3xl md:text-4xl font-heading text-neutral">{heroTitle}</h1>
+      {heroSubheadline && (
+        <p class="text-base text-gray-700 max-w-4xl">
+          {heroSubheadline}
+        </p>
+      )}
+      {heroData?.intro && (
+        <p class="text-base text-gray-700 max-w-4xl">
+          {heroData.intro}
+        </p>
+      )}
       <div class="flex flex-wrap gap-3">
         <Button href="/new-patients" variant="primary">Request appointment</Button>
         <Button href="/contact" variant="outline">Call our office</Button>
       </div>
+      {heroImage && (
+        <div class="overflow-hidden rounded-3xl bg-white shadow-card-soft ring-1 ring-surface-border md:max-w-3xl">
+          <img src={heroImage} alt={heroTitle} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+        </div>
+      )}
     </div>
   </Section>
 
@@ -42,22 +76,35 @@ const grouped = services.reduce<Record<string, typeof services>>((acc, item) => 
         {services
           .filter((item) => item.data.featured)
           .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
-          .map((service) => (
-            <a
-              href={`/services/${service.slug}`}
-              class="group flex items-start gap-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
-              key={service.id}
-            >
-              <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <span class="text-lg">*</span>
-              </div>
-              <div class="space-y-1">
-                <h3 class="text-lg font-heading text-neutral group-hover:text-primary">{service.data.name}</h3>
-                <p class="text-sm text-gray-700">{service.data.summary}</p>
-                <span class="inline-flex items-center gap-1 text-sm font-semibold text-primary">Learn more →</span>
-              </div>
-            </a>
-          ))}
+          .map((service) => {
+            const serviceImage = service.data.cardImage || service.data.heroImage;
+            return (
+              <a
+                href={`/services/${service.slug}`}
+                class="group flex items-start gap-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
+                key={service.id}
+              >
+                {serviceImage ? (
+                  <img
+                    src={serviceImage}
+                    alt={service.data.name}
+                    loading="lazy"
+                    decoding="async"
+                    class="h-16 w-24 rounded-xl object-cover"
+                  />
+                ) : (
+                  <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <span class="text-lg">*</span>
+                  </div>
+                )}
+                <div class="space-y-1">
+                  <h3 class="text-lg font-heading text-neutral group-hover:text-primary">{service.data.name}</h3>
+                  <p class="text-sm text-gray-700">{service.data.summary}</p>
+                  <span class="inline-flex items-center gap-1 text-sm font-semibold text-primary">Learn more</span>
+                </div>
+              </a>
+            );
+          })}
       </div>
     </div>
   </Section>
@@ -73,25 +120,38 @@ const grouped = services.reduce<Record<string, typeof services>>((acc, item) => 
           <div class="grid gap-6 md:grid-cols-3">
             {items
               .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
-              .map((service) => (
-                <a
-                  href={`/services/${service.slug}`}
-                  class="group rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
-                  key={service.id}
-                >
-                  <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <span class="text-base">*</span>
-                  </div>
-                  <h3 class="text-xl font-heading text-neutral group-hover:text-primary">{service.data.name}</h3>
-                  <p class="text-sm text-gray-700 mb-3">{service.data.summary}</p>
-                  <div class="flex items-center justify-between text-xs text-gray-600">
-                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-700">
-                      {service.data.category ?? 'general'}
-                    </span>
-                    <span class="text-sm font-semibold text-primary">Learn more →</span>
-                  </div>
-                </a>
-              ))}
+              .map((service) => {
+                const serviceImage = service.data.cardImage || service.data.heroImage;
+                return (
+                  <a
+                    href={`/services/${service.slug}`}
+                    class="group rounded-2xl bg-white p-6 shadow-card ring-1 ring-gray-100 transition hover:-translate-y-1 hover:shadow-lg"
+                    key={service.id}
+                  >
+                    {serviceImage ? (
+                      <img
+                        src={serviceImage}
+                        alt={service.data.name}
+                        loading="lazy"
+                        decoding="async"
+                        class="mb-3 h-32 w-full rounded-xl object-cover"
+                      />
+                    ) : (
+                      <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <span class="text-base">*</span>
+                      </div>
+                    )}
+                    <h3 class="text-xl font-heading text-neutral group-hover:text-primary">{service.data.name}</h3>
+                    <p class="text-sm text-gray-700 mb-3">{service.data.summary}</p>
+                    <div class="flex items-center justify-between text-xs text-gray-600">
+                      <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-700">
+                        {service.data.category ?? 'general'}
+                      </span>
+                      <span class="text-sm font-semibold text-primary">Learn more</span>
+                    </div>
+                  </a>
+                );
+              })}
           </div>
         </div>
       ))}
