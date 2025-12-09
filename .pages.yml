@@ -374,5 +374,5 @@ content:
 
       - name: body
         label: Article body
-        type: markdown
+        type: rich-text
         hint: "Main article content. You can use headings, lists, links, and images."
