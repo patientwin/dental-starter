@@ -341,9 +341,11 @@ content:
 
       - name: date
         label: Date
-        type: datetime
+        type: date
         hint: "Publish date of the article."
-
+        options:
+          format: MMM dd yyyy
+            
       - name: excerpt
         label: Excerpt
         type: text
@@ -376,3 +378,5 @@ content:
         label: Article body
         type: rich-text
         hint: "Main article content. You can use headings, lists, links, and images."
+    view:
+      fields: [title, excerpt, date, featuredImage]
